@@ -10,8 +10,8 @@
         
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
-            color: #e2e8f0;
+            background: #f5e8c7;   /* Light yellow background like your image */
+            color: #1f2937;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -19,18 +19,18 @@
         }
 
         .container {
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 24px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
             width: 100%;
             max-width: 850px;
             padding: 40px;
-            border: 1px solid rgba(0, 245, 192, 0.15);
+            border: 1px solid #e5d5a8;
         }
 
-        .logo { font-size: 2.8rem; font-weight: 800; background: linear-gradient(90deg, #00f5c0, #67e8f9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-bottom: 8px; }
-        h1 { text-align: center; margin-bottom: 8px; color: white; }
-        .subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; font-size: 1.1rem; }
+        .logo { font-size: 2.8rem; font-weight: 800; background: linear-gradient(90deg, #00f5c0, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-bottom: 8px; }
+        h1 { text-align: center; margin-bottom: 8px; color: #1f2937; }
+        .subtitle { text-align: center; color: #4b5563; margin-bottom: 30px; font-size: 1.1rem; }
 
         .screen { display: none; }
         .screen.active { display: block; animation: fadeIn 0.4s ease; }
@@ -50,22 +50,22 @@
         }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 245, 192, 0.4); }
 
-        .btn-skip { background: transparent; color: #94a3b8; border: 2px solid #475569; }
-        .btn-skip:hover { background: #334155; color: #e2e8f0; }
+        .btn-skip { background: transparent; color: #4b5563; border: 2px solid #9ca3af; }
+        .btn-skip:hover { background: #e5e7eb; color: #1f2937; }
 
         .btn-twitter { background: #1DA1F2; color: white; }
-        .btn-copy { background: #475569; color: white; }
+        .btn-copy { background: #6b7280; color: white; }
 
-        .progress-bar { height: 8px; background: #334155; border-radius: 999px; overflow: hidden; margin: 20px 0; }
-        .progress-fill { height: 100%; background: linear-gradient(to right, #00f5c0, #67e8f9); width: 0%; transition: width 0.4s ease; }
+        .progress-bar { height: 8px; background: #e5e7eb; border-radius: 999px; overflow: hidden; margin: 20px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(to right, #00f5c0, #22d3ee); width: 0%; transition: width 0.4s ease; }
 
-        .question { background: var(--card); padding: 30px; border-radius: 16px; margin: 25px 0; }
+        .question { background: #f3f4f6; padding: 30px; border-radius: 16px; margin: 25px 0; border: 1px solid #e5e7eb; }
         .options { display: grid; gap: 12px; margin-top: 20px; }
-        .option { background: #334155; padding: 18px; border-radius: 12px; cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
-        .option:hover { background: #475569; border-color: var(--primary); }
-        .option.selected { background: rgba(0, 245, 192, 0.15); border-color: var(--primary); }
-        .option.correct { border-color: #4ade80; background: rgba(74, 222, 128, 0.2); }
-        .option.incorrect { border-color: #f87171; background: rgba(248, 113, 113, 0.2); }
+        .option { background: #f9fafb; padding: 18px; border-radius: 12px; cursor: pointer; transition: all 0.3s; border: 2px solid #d1d5db; }
+        .option:hover { background: #f3f4f6; border-color: #00f5c0; }
+        .option.selected { background: rgba(0, 245, 192, 0.1); border-color: #00f5c0; }
+        .option.correct { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+        .option.incorrect { border-color: #f87171; background: rgba(248, 113, 113, 0.1); }
 
         .feedback { margin-top: 20px; padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 1.1rem; }
         .buttons { text-align: center; margin-top: 30px; }
@@ -82,7 +82,7 @@
 
         <div id="quizScreen" class="screen">
             <div class="logo">🗿 ConcreteXYZ</div>
-            <div style="text-align:center; margin-bottom:15px; color:#94a3b8;">Question <span id="qNum">1</span>/10</div>
+            <div style="text-align:center; margin-bottom:15px; color:#4b5563;">Question <span id="qNum">1</span>/10</div>
             <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
 
             <div class="question">
@@ -144,137 +144,4 @@
             const q = questions[currentQ];
             document.getElementById('questionText').innerHTML = q.q;
             document.getElementById('qNum').textContent = currentQ + 1;
-            document.getElementById('progress').style.width = ((currentQ) / questions.length * 100) + "%";
-
-            const optionsDiv = document.getElementById('options');
-            optionsDiv.innerHTML = "";
-            q.options.forEach((opt, i) => {
-                const div = document.createElement('div');
-                div.className = "option";
-                div.textContent = opt;
-                div.onclick = () => selectOption(i, div);
-                optionsDiv.appendChild(div);
-            });
-
-            document.getElementById('feedback').style.display = "none";
-            document.getElementById('nextBtn').style.display = "none";
-            selected = null;
-        }
-
-        function selectOption(index, element) {
-            selected = index;
-            document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
-            element.classList.add('selected');
-
-            const feedback = document.getElementById('feedback');
-            feedback.style.display = "block";
-
-            if (index === questions[currentQ].correct) {
-                feedback.innerHTML = "✅ Correct!";
-                feedback.style.color = "#4ade80";
-                element.classList.add('correct');
-            } else {
-                feedback.innerHTML = "❌ Incorrect";
-                feedback.style.color = "#f87171";
-                element.classList.add('incorrect');
-                document.querySelectorAll('.option')[questions[currentQ].correct].classList.add('correct');
-            }
-            document.getElementById('nextBtn').style.display = "inline-block";
-        }
-
-        function nextQuestion() {
-            if (selected === questions[currentQ].correct) score++;
-            currentQ++;
-            currentQ < questions.length ? loadQuestion() : showResults();
-        }
-
-        function skipQuestion() {
-            currentQ++;
-            currentQ < questions.length ? loadQuestion() : showResults();
-        }
-
-        function showResults() {
-            document.getElementById('quizScreen').classList.remove('active');
-            document.getElementById('resultScreen').classList.add('active');
-
-            const percentage = Math.round((score / questions.length) * 100);
-            document.getElementById('finalScore').textContent = `${score}/${questions.length}`;
-            document.getElementById('scoreCircle').textContent = percentage + "%";
-            
-            const msg = document.getElementById('resultMessage');
-            msg.textContent = percentage >= 80 ? "🏆 Excellent! You're a ConcreteXYZ Expert!" :
-                             percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ!";
-        }
-
-        function copyScoreImage() {
-            const percentage = Math.round((score / questions.length) * 100);
-            const canvas = document.getElementById('scoreCanvas');
-            const ctx = canvas.getContext('2d');
-
-            ctx.fillStyle = "#0f172a";
-            ctx.fillRect(0, 0, 600, 460);
-
-            ctx.fillStyle = "#00f5c0";
-            ctx.font = "bold 52px Arial";
-            ctx.textAlign = "center";
-            ctx.fillText("ConcreteXYZ", 300, 85);
-
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 26px Arial";
-            ctx.fillText("Quiz Completed!", 300, 125);
-
-            // Circle
-            ctx.beginPath();
-            ctx.arc(300, 245, 95, 0, Math.PI * 2);
-            ctx.fillStyle = "#00f5c0";
-            ctx.fill();
-
-            // 100%
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 65px Arial";
-            ctx.fillText(percentage + "%", 300, 258);
-
-            // 10/10
-            ctx.font = "bold 29px Arial";
-            ctx.fillText(`${score}/10`, 300, 295);
-
-            // Institutional Vault Quiz
-            ctx.fillStyle = "#94a3b8";
-            ctx.font = "26px Arial";
-            ctx.fillText("Institutional Vault Quiz", 300, 370);
-
-            // Result Message (Excellent / Good Job / Keep Learning)
-            const msg = percentage >= 80 ? "🏆 Excellent! You're a ConcreteXYZ Expert!" :
-                        percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ";
-            
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 22px Arial";
-            ctx.fillText(msg, 300, 415);
-
-            canvas.toBlob(blob => {
-                navigator.clipboard.write([new ClipboardItem({'image/png': blob})]).then(() => {
-                    alert("✅ Score Image Copied Successfully!\n\nPaste it (Ctrl + V) in your Twitter post.");
-                });
-            });
-        }
-
-        function shareOnTwitter() {
-            const percentage = Math.round((score / questions.length) * 100);
-            const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪
-
-Test your knowledge about institutional on-chain vaults.
-
-Try it yourself 👇 
-https://concrete-quiz-test.vercel.app 
-
-This website is built by ConcreteXYZ Supporter @pras_p69`;
-
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
-        }
-
-        function restartQuiz() {
-            location.reload();
-        }
-    </script>
-</body>
-</html>
+            document.getElementById('progress').style.width = ((
