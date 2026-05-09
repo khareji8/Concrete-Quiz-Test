@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ConcreteXYZ Quiz</title>
     <style>
-        :root { --primary: #00f5c0; }
+        :root { --primary: #00f5c0; --dark: #0f172a; --card: #1e2937; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
@@ -15,70 +16,63 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
         }
+
         .container {
             background: rgba(15, 23, 42, 0.95);
             border-radius: 24px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
             width: 100%;
-            max-width: 820px;
+            max-width: 850px;
             padding: 40px;
-            border: 1px solid rgba(0, 245, 192, 0.2);
+            border: 1px solid rgba(0, 245, 192, 0.15);
         }
-        .logo {
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, #00f5c0, #67e8f9);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        h1 { text-align: center; color: white; margin-bottom: 8px; }
+
+        .logo { font-size: 2.8rem; font-weight: 800; background: linear-gradient(90deg, #00f5c0, #67e8f9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-bottom: 8px; }
+        h1 { text-align: center; margin-bottom: 8px; color: white; }
         .subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; font-size: 1.1rem; }
 
         .screen { display: none; }
-        .screen.active { display: block; animation: fadeIn 0.4s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .screen.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
 
         .btn {
             background: linear-gradient(45deg, #00f5c0, #22d3ee);
             color: #0f172a;
             border: none;
-            padding: 15px 32px;
-            font-size: 1.1rem;
+            padding: 14px 28px;
+            font-size: 1.05rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
+            transition: all 0.3s;
             margin: 8px;
         }
-        .btn:hover { transform: translateY(-3px); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 245, 192, 0.4); }
+
         .btn-skip { background: transparent; color: #94a3b8; border: 2px solid #475569; }
+        .btn-skip:hover { background: #334155; color: #e2e8f0; }
+
         .btn-twitter { background: #1DA1F2; color: white; }
+        .btn-twitter:hover { background: #1a91da; }
 
-        .progress-bar { height: 8px; background: #334155; border-radius: 999px; margin: 20px 0; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(to right, #00f5c0, #67e8f9); width: 0%; transition: width 0.4s; }
+        .progress-bar { height: 8px; background: #334155; border-radius: 999px; overflow: hidden; margin: 20px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(to right, #00f5c0, #67e8f9); width: 0%; transition: width 0.4s ease; }
 
-        .question { background: #1e2937; padding: 30px; border-radius: 16px; margin: 25px 0; }
+        .question { background: var(--card); padding: 30px; border-radius: 16px; margin: 25px 0; }
         .options { display: grid; gap: 12px; margin-top: 20px; }
-        .option {
-            background: #334155;
-            padding: 18px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .option:hover { background: #475569; }
-        .option.selected { background: rgba(0, 245, 192, 0.2); border: 2px solid var(--primary); }
+        .option { background: #334155; padding: 18px; border-radius: 12px; cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
+        .option:hover { background: #475569; border-color: var(--primary); }
+        .option.selected { background: rgba(0, 245, 192, 0.15); border-color: var(--primary); }
+        .option.correct { border-color: #4ade80; background: rgba(74, 222, 128, 0.2); }
+        .option.incorrect { border-color: #f87171; background: rgba(248, 113, 113, 0.2); }
 
-        .feedback { margin: 20px 0; padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 1.1rem; }
+        .feedback { margin-top: 20px; padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 1.1rem; }
         .buttons { text-align: center; margin-top: 25px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Start Screen -->
         <div id="startScreen" class="screen active">
             <div class="logo">🗿 ConcreteXYZ</div>
             <h1>ConcreteXYZ Quiz</h1>
@@ -86,12 +80,9 @@
             <center><button class="btn" onclick="startQuiz()">Start Quiz →</button></center>
         </div>
 
-        <!-- Quiz Screen -->
         <div id="quizScreen" class="screen">
             <div class="logo">🗿 ConcreteXYZ</div>
-            <div style="text-align:center; margin-bottom:15px; color:#94a3b8;">
-                Question <span id="qNum">1</span>/10
-            </div>
+            <div style="text-align:center; margin-bottom:15px; color:#94a3b8;">Question <span id="qNum">1</span>/10</div>
             <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
 
             <div class="question">
@@ -107,7 +98,6 @@
             </div>
         </div>
 
-        <!-- Results Screen -->
         <div id="resultScreen" class="screen" style="text-align:center;">
             <div class="logo">🗿 ConcreteXYZ</div>
             <h1>Quiz Completed!</h1>
@@ -136,7 +126,7 @@
             { q: "What key accounting feature does ConcreteXYZ provide?", options: ["Monthly manual reports", "Real-time NAV accounting", "Only on-chain price feeds", "Off-chain Excel tracking"], correct: 1 },
             { q: "Which investors back ConcreteXYZ?", options: ["a16z, Paradigm", "Polychain, Yzi Labs, and VanEck", "Binance Labs only", "Solana Foundation"], correct: 1 },
             { q: "ConcreteXYZ turns vaults into:", options: ["Simple savings accounts", "Programmable asset managers", "Decentralized exchanges", "Insurance protocols"], correct: 1 },
-            { q: "Which institutional feature is highlighted?", options: ["Role-based permissions and multi-sig roles", "Anonymous trading", "Unlimited leverage", "No withdrawal limits"], correct: 0 },
+            { q: "Which institutional feature is highlighted in ConcreteXYZ?", options: ["Role-based permissions and multi-sig roles", "Anonymous trading", "Unlimited leverage", "No withdrawal limits"], correct: 0 },
             { q: "What standard are ConcreteXYZ’s vaults built on?", options: ["ERC-20", "ERC-4626", "ERC-721", "ERC-1155"], correct: 1 },
             { q: "What does the ConcreteXYZ demo showcase?", options: ["Mobile gaming interface", "Professional dark-themed dashboard with automations", "Social media feed", "Prediction market"], correct: 1 },
             { q: "ConcreteXYZ is designed primarily for:", options: ["Retail traders only", "Institutions and partners deploying capital", "NFT collectors", "Blockchain gamers"], correct: 1 },
@@ -223,6 +213,29 @@
         function shareOnTwitter() {
             const percentage = Math.round((score / questions.length) * 100);
 
+            // Generate Score Image
+            const canvas = document.getElementById('scoreCanvas');
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = "#0f172a";
+            ctx.fillRect(0, 0, 600, 400);
+
+            ctx.fillStyle = "#00f5c0";
+            ctx.font = "bold 55px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("ConcreteXYZ", 300, 90);
+
+            ctx.fillStyle = "white";
+            ctx.font = "bold 130px Arial";
+            ctx.fillText(percentage + "%", 300, 230);
+
+            ctx.font = "bold 45px Arial";
+            ctx.fillText(`${score}/10`, 300, 290);
+
+            ctx.font = "30px Arial";
+            ctx.fillStyle = "#94a3b8";
+            ctx.fillText("Institutional Vault Quiz", 300, 350);
+
             const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪
 
 Test your knowledge about institutional on-chain vaults.
@@ -232,7 +245,20 @@ https://concrete-quiz-test.vercel.app
 
 This website is built by ConcreteXYZ Supporter @pras_p69`;
 
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+            canvas.toBlob((blob) => {
+                const file = new File([blob], "concretexyz-score.png", { type: "image/png" });
+
+                if (navigator.share && navigator.canShare({ files: [file] })) {
+                    navigator.share({
+                        title: `I scored ${percentage}% on ConcreteXYZ Quiz!`,
+                        text: text,
+                        files: [file]
+                    });
+                } else {
+                    // Fallback for desktop
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+                }
+            });
         }
 
         function restartQuiz() {
