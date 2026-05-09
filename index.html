@@ -118,7 +118,7 @@
     <canvas id="scoreCanvas" width="600" height="420" style="display:none;"></canvas>
 
     <script>
-        const questions = [ /* same questions array */ 
+        const questions = [
             { q: "What is ConcreteXYZ?", options: ["A retail trading app", "Institutional vault infrastructure launched by ConcreteXYZ", "A stablecoin issuance platform", "A Layer 2 blockchain"], correct: 1 },
             { q: "What is the core design goal of ConcreteXYZ?", options: ["Simplify meme coin trading", "Bring trading desk-level rigor on-chain with automated operations", "Create NFT marketplaces", "Focus only on Bitcoin yield"], correct: 1 },
             { q: "What key accounting feature does ConcreteXYZ provide?", options: ["Monthly manual reports", "Real-time NAV accounting", "Only on-chain price feeds", "Off-chain Excel tracking"], correct: 1 },
@@ -214,40 +214,37 @@
             ctx.fillStyle = "#0f172a";
             ctx.fillRect(0, 0, 600, 420);
 
-            // ConcreteXYZ
             ctx.fillStyle = "#00f5c0";
-            ctx.font = "bold 54px Arial";
+            ctx.font = "bold 52px Arial";
             ctx.textAlign = "center";
             ctx.fillText("ConcreteXYZ", 300, 85);
 
-            // Quiz Completed
             ctx.fillStyle = "#ffffff";
             ctx.font = "bold 26px Arial";
             ctx.fillText("Quiz Completed!", 300, 125);
 
-            // Big Circle
+            // Circle
             ctx.beginPath();
             ctx.arc(300, 245, 95, 0, Math.PI * 2);
             ctx.fillStyle = "#00f5c0";
             ctx.fill();
 
-            // Percentage
+            // Percentage (smaller & better fitted)
             ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 82px Arial";
-            ctx.fillText(percentage + "%", 300, 265);
+            ctx.font = "bold 72px Arial";
+            ctx.fillText(percentage + "%", 300, 260);
 
-            // 10/10
-            ctx.font = "bold 32px Arial";
+            // Score
+            ctx.font = "bold 34px Arial";
             ctx.fillText(`${score}/10`, 300, 305);
 
-            // Bottom Text
             ctx.fillStyle = "#94a3b8";
             ctx.font = "26px Arial";
             ctx.fillText("Institutional Vault Quiz", 300, 370);
 
             canvas.toBlob(blob => {
                 navigator.clipboard.write([new ClipboardItem({'image/png': blob})]).then(() => {
-                    alert("✅ Score Image Copied Successfully!\n\nAb Twitter mein paste kar do (Ctrl + V)");
+                    alert("✅ Score Image Copied Successfully!\n\nAb Twitter pe paste kar do (Ctrl + V)");
                 });
             });
         }
