@@ -117,7 +117,7 @@
     </div>
 
     <script>
-        const questions = [
+        const questions = [ /* your 10 questions */ 
             { q: "What is ConcreteXYZ?", options: ["A retail trading app", "Institutional vault infrastructure launched by ConcreteXYZ", "A stablecoin issuance platform", "A Layer 2 blockchain"], correct: 1 },
             { q: "What is the core design goal of ConcreteXYZ?", options: ["Simplify meme coin trading", "Bring trading desk-level rigor on-chain with automated operations", "Create NFT marketplaces", "Focus only on Bitcoin yield"], correct: 1 },
             { q: "What key accounting feature does ConcreteXYZ provide?", options: ["Monthly manual reports", "Real-time NAV accounting", "Only on-chain price feeds", "Off-chain Excel tracking"], correct: 1 },
@@ -132,14 +132,13 @@
 
         let currentQ = 0, score = 0, selected = null;
 
-        function startQuiz() {
+        function startQuiz() { /* same as before */ 
             document.getElementById('startScreen').classList.remove('active');
             document.getElementById('quizScreen').classList.add('active');
-            currentQ = 0; score = 0;
-            loadQuestion();
+            currentQ = 0; score = 0; loadQuestion();
         }
 
-        function loadQuestion() {
+        function loadQuestion() { /* same */ 
             const q = questions[currentQ];
             document.getElementById('questionText').innerHTML = q.q;
             document.getElementById('qNum').textContent = currentQ + 1;
@@ -160,7 +159,7 @@
             selected = null;
         }
 
-        function selectOption(index, element) {
+        function selectOption(index, element) { /* same as before */ 
             selected = index;
             document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
@@ -201,16 +200,14 @@
             document.getElementById('scoreCircle').textContent = percentage + "%";
             
             const msg = document.getElementById('resultMessage');
-            msg.textContent = percentage >= 80 ? "🏆 Excellent! You're a ConcreteXYZ Expert!" :
-                             percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ!";
+            msg.textContent = percentage >= 80 ? "🏆 Excellent! You're a ConcreteXYZ Expert!" : percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ!";
 
             document.getElementById('shareBtn').style.display = percentage >= 70 ? "inline-block" : "none";
         }
 
         function shareOnTwitter() {
             const percentage = Math.round((score / questions.length) * 100);
-            const text = `I just scored ${percentage}% on the ConcreteXYZ Quiz! 🗿💪\n\nTest your knowledge about institutional on-chain vaults.\n\nTry it yourself 👇`;
-
+            const text = `I just scored ${percentage}% on the ConcreteXYZ Quiz! 🗿\n\nTest your knowledge about institutional vaults.\n\nTry it here 👇`;
             const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=https://concrete-quiz-test.vercel.app`;
             window.open(url, '_blank');
         }
