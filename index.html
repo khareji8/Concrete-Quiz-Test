@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ConcreteXYZ Quiz</title>
     <style>
-        :root { --primary: #00f5c0; --dark: #0f172a; --card: #1e2937; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background: #f5e8c7;   /* Light yellow background like your image */
+            background: #f5e8c7; /* Exact light yellow background */
             color: #1f2937;
             min-height: 100vh;
             display: flex;
@@ -19,16 +18,28 @@
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.92);
             border-radius: 24px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 850px;
             padding: 40px;
-            border: 1px solid #e5d5a8;
+            border: 3px solid #d4b070;
         }
 
-        .logo { font-size: 2.8rem; font-weight: 800; background: linear-gradient(90deg, #00f5c0, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-bottom: 8px; }
+        .logo {
+            font-size: 3.2rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #1f2937;
+            border: 3px solid #1f2937;
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 4px;
+        }
+
         h1 { text-align: center; margin-bottom: 8px; color: #1f2937; }
         .subtitle { text-align: center; color: #4b5563; margin-bottom: 30px; font-size: 1.1rem; }
 
@@ -40,18 +51,18 @@
             background: linear-gradient(45deg, #00f5c0, #22d3ee);
             color: #0f172a;
             border: none;
-            padding: 14px 28px;
-            font-size: 1.05rem;
+            padding: 14px 32px;
+            font-size: 1.1rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s;
             margin: 8px;
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 245, 192, 0.4); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0, 245, 192, 0.4); }
 
         .btn-skip { background: transparent; color: #4b5563; border: 2px solid #9ca3af; }
-        .btn-skip:hover { background: #e5e7eb; color: #1f2937; }
+        .btn-skip:hover { background: #e5e7eb; }
 
         .btn-twitter { background: #1DA1F2; color: white; }
         .btn-copy { background: #6b7280; color: white; }
@@ -59,10 +70,10 @@
         .progress-bar { height: 8px; background: #e5e7eb; border-radius: 999px; overflow: hidden; margin: 20px 0; }
         .progress-fill { height: 100%; background: linear-gradient(to right, #00f5c0, #22d3ee); width: 0%; transition: width 0.4s ease; }
 
-        .question { background: #f3f4f6; padding: 30px; border-radius: 16px; margin: 25px 0; border: 1px solid #e5e7eb; }
+        .question { background: #fff; padding: 30px; border-radius: 16px; margin: 25px 0; border: 2px solid #d4b070; }
         .options { display: grid; gap: 12px; margin-top: 20px; }
         .option { background: #f9fafb; padding: 18px; border-radius: 12px; cursor: pointer; transition: all 0.3s; border: 2px solid #d1d5db; }
-        .option:hover { background: #f3f4f6; border-color: #00f5c0; }
+        .option:hover { border-color: #00f5c0; }
         .option.selected { background: rgba(0, 245, 192, 0.1); border-color: #00f5c0; }
         .option.correct { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
         .option.incorrect { border-color: #f87171; background: rgba(248, 113, 113, 0.1); }
@@ -72,76 +83,3 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div id="startScreen" class="screen active">
-            <div class="logo">🗿 ConcreteXYZ</div>
-            <h1>ConcreteXYZ Quiz</h1>
-            <p class="subtitle">Test your knowledge about ConcreteXYZ Institutional Vault Infrastructure</p>
-            <center><button class="btn" onclick="startQuiz()">Start Quiz →</button></center>
-        </div>
-
-        <div id="quizScreen" class="screen">
-            <div class="logo">🗿 ConcreteXYZ</div>
-            <div style="text-align:center; margin-bottom:15px; color:#4b5563;">Question <span id="qNum">1</span>/10</div>
-            <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
-
-            <div class="question">
-                <h3 id="questionText"></h3>
-                <div class="options" id="options"></div>
-            </div>
-
-            <div id="feedback" class="feedback" style="display:none;"></div>
-
-            <div class="buttons">
-                <button class="btn btn-skip" onclick="skipQuestion()">Skip Question</button>
-                <button class="btn" id="nextBtn" onclick="nextQuestion()" style="display:none;">Next Question →</button>
-            </div>
-        </div>
-
-        <div id="resultScreen" class="screen" style="text-align:center;">
-            <div class="logo">🗿 ConcreteXYZ</div>
-            <h1>Quiz Completed!</h1>
-            
-            <div id="scoreCircle" style="width:180px;height:180px;border-radius:50%;margin:25px auto;display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:bold;color:white;background:linear-gradient(45deg,#00f5c0,#22d3ee);">0%</div>
-            
-            <h2 id="resultMessage">Great Job!</h2>
-            <p style="font-size:1.3rem;">You scored <strong id="finalScore">0/10</strong></p>
-
-            <div class="buttons">
-                <button class="btn" onclick="restartQuiz()">Try Again</button>
-                <button class="btn btn-twitter" onclick="shareOnTwitter()">📤 Share on X</button>
-                <button class="btn btn-copy" onclick="copyScoreImage()">📋 Copy Score Image</button>
-            </div>
-        </div>
-    </div>
-
-    <canvas id="scoreCanvas" width="600" height="460" style="display:none;"></canvas>
-
-    <script>
-        const questions = [
-            { q: "What is ConcreteXYZ?", options: ["A retail trading app", "Institutional vault infrastructure launched by ConcreteXYZ", "A stablecoin issuance platform", "A Layer 2 blockchain"], correct: 1 },
-            { q: "What is the core design goal of ConcreteXYZ?", options: ["Simplify meme coin trading", "Bring trading desk-level rigor on-chain with automated operations", "Create NFT marketplaces", "Focus only on Bitcoin yield"], correct: 1 },
-            { q: "What key accounting feature does ConcreteXYZ provide?", options: ["Monthly manual reports", "Real-time NAV accounting", "Only on-chain price feeds", "Off-chain Excel tracking"], correct: 1 },
-            { q: "Which investors back ConcreteXYZ?", options: ["a16z, Paradigm", "Polychain, Yzi Labs, and VanEck", "Binance Labs only", "Solana Foundation"], correct: 1 },
-            { q: "ConcreteXYZ turns vaults into:", options: ["Simple savings accounts", "Programmable asset managers", "Decentralized exchanges", "Insurance protocols"], correct: 1 },
-            { q: "Which institutional feature is highlighted in ConcreteXYZ?", options: ["Role-based permissions and multi-sig roles", "Anonymous trading", "Unlimited leverage", "No withdrawal limits"], correct: 0 },
-            { q: "What standard are ConcreteXYZ’s vaults built on?", options: ["ERC-20", "ERC-4626", "ERC-721", "ERC-1155"], correct: 1 },
-            { q: "What does the ConcreteXYZ demo showcase?", options: ["Mobile gaming interface", "Professional dark-themed dashboard with automations", "Social media feed", "Prediction market"], correct: 1 },
-            { q: "ConcreteXYZ is designed primarily for:", options: ["Retail traders only", "Institutions and partners deploying capital", "NFT collectors", "Blockchain gamers"], correct: 1 },
-            { q: "What is ConcreteXYZ’s broader vision?", options: ["Core infrastructure for on-chain capital formation", "Replace all CEXs", "Focus only on Ethereum L1", "Build a new L1 blockchain"], correct: 0 }
-        ];
-
-        let currentQ = 0, score = 0, selected = null;
-
-        function startQuiz() {
-            document.getElementById('startScreen').classList.remove('active');
-            document.getElementById('quizScreen').classList.add('active');
-            currentQ = 0; score = 0;
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            const q = questions[currentQ];
-            document.getElementById('questionText').innerHTML = q.q;
-            document.getElementById('qNum').textContent = currentQ + 1;
-            document.getElementById('progress').style.width = ((
