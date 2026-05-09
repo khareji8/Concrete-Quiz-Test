@@ -86,7 +86,7 @@
 
         .moai { position: absolute; right: -70px; top: 160px; width: 160px; }
 
-        /* Old Quiz & Result Design */
+        /* Old Quiz Design */
         .screen { display: none; }
         .screen.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
@@ -242,6 +242,7 @@
                 optionsDiv.appendChild(div);
             });
 
+            // Reset everything
             document.getElementById('feedback').style.display = "none";
             document.getElementById('nextBtn').style.display = "none";
             selected = null;
@@ -258,11 +259,9 @@
             if (index === questions[currentQ].correct) {
                 feedback.innerHTML = "✅ Correct!";
                 feedback.style.color = "#4ade80";
-                element.classList.add('correct');
             } else {
                 feedback.innerHTML = "❌ Incorrect";
                 feedback.style.color = "#f87171";
-                element.classList.add('incorrect');
                 document.querySelectorAll('.option')[questions[currentQ].correct].classList.add('correct');
             }
             document.getElementById('nextBtn').style.display = "inline-block";
@@ -292,26 +291,13 @@
                              percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ!";
         }
 
-        function copyScoreImage() {
-            alert("✅ Score Image Copied Successfully!");
-        }
-
+        function copyScoreImage() { alert("✅ Score Image Copied!"); }
         function shareOnTwitter() {
             const percentage = Math.round((score / questions.length) * 100);
-            const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪
-
-Test your knowledge about institutional on-chain vaults.
-
-Try it yourself 👇 
-https://concrete-quiz-test.vercel.app 
-
-This website is built by ConcreteXYZ Supporter @pras_p69`;
+            const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪`;
             window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
         }
-
-        function restartQuiz() {
-            location.reload();
-        }
+        function restartQuiz() { location.reload(); }
     </script>
 </body>
 </html>
