@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ConcreteXYZ Quiz</title>
     <style>
-        :root {
-            --primary: #00f5c0;
-            --dark: #0f172a;
-            --card: #1e2937;
-        }
-        
+        :root { --primary: #00f5c0; --dark: #0f172a; --card: #1e2937; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
@@ -48,11 +43,7 @@
 
         .screen { display: none; }
         .screen.active { display: block; animation: fadeIn 0.4s ease; }
-
-        @keyframes fadeIn { 
-            from {opacity: 0; transform: translateY(20px);} 
-            to {opacity: 1; transform: translateY(0);} 
-        }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
 
         .btn {
             background: linear-gradient(45deg, #00f5c0, #22d3ee);
@@ -73,38 +64,13 @@
             color: #94a3b8;
             border: 2px solid #475569;
         }
-        .btn-skip:hover {
-            background: #334155;
-            color: #e2e8f0;
-            border-color: #64748b;
-        }
+        .btn-skip:hover { background: #334155; color: #e2e8f0; }
 
-        .progress-bar {
-            height: 8px;
-            background: #334155;
-            border-radius: 999px;
-            overflow: hidden;
-            margin: 20px 0;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, #00f5c0, #67e8f9);
-            width: 0%;
-            transition: width 0.4s ease;
-        }
+        .progress-bar { height: 8px; background: #334155; border-radius: 999px; overflow: hidden; margin: 20px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(to right, #00f5c0, #67e8f9); width: 0%; transition: width 0.4s ease; }
 
-        .question { 
-            background: var(--card); 
-            padding: 30px; 
-            border-radius: 16px; 
-            margin: 25px 0; 
-        }
-        
-        .options { 
-            display: grid; 
-            gap: 12px; 
-            margin-top: 20px; 
-        }
+        .question { background: var(--card); padding: 30px; border-radius: 16px; margin: 25px 0; }
+        .options { display: grid; gap: 12px; margin-top: 20px; }
         
         .option {
             background: #334155;
@@ -113,31 +79,18 @@
             cursor: pointer;
             transition: all 0.3s;
             border: 2px solid transparent;
-            font-size: 1.05rem;
         }
         .option:hover { background: #475569; border-color: var(--primary); }
         .option.selected { background: rgba(0, 245, 192, 0.15); border-color: var(--primary); }
         .option.correct { border-color: #4ade80; background: rgba(74, 222, 128, 0.2); }
         .option.incorrect { border-color: #f87171; background: rgba(248, 113, 113, 0.2); }
 
-        .feedback {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .buttons {
-            text-align: center;
-            margin-top: 25px;
-        }
+        .feedback { margin-top: 20px; padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 1.1rem; }
+        .buttons { text-align: center; margin-top: 25px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Start Screen -->
         <div id="startScreen" class="screen active">
             <div class="logo">🗿 ConcreteXYZ</div>
             <h1>ConcreteXYZ Quiz</h1>
@@ -145,7 +98,6 @@
             <center><button class="btn" onclick="startQuiz()">Start Quiz →</button></center>
         </div>
 
-        <!-- Quiz Screen -->
         <div id="quizScreen" class="screen">
             <div class="logo">🗿 ConcreteXYZ</div>
             <div style="text-align:center; margin-bottom:15px; color:#94a3b8;">
@@ -166,24 +118,18 @@
             </div>
         </div>
 
-        <!-- Results Screen -->
         <div id="resultScreen" class="screen" style="text-align:center;">
             <div class="logo">🗿 ConcreteXYZ</div>
             <h1>Quiz Completed!</h1>
-            
-            <div id="scoreCircle" style="width:180px;height:180px;border-radius:50%;margin:25px auto;display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:bold;color:white;background:linear-gradient(45deg,#00f5c0,#22d3ee);">
-                0%
-            </div>
-            
+            <div id="scoreCircle" style="width:180px;height:180px;border-radius:50%;margin:25px auto;display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:bold;color:white;background:linear-gradient(45deg,#00f5c0,#22d3ee);">0%</div>
             <h2 id="resultMessage">Great Job!</h2>
             <p style="font-size:1.3rem;">You scored <strong id="finalScore">0/10</strong></p>
-
             <button class="btn" onclick="restartQuiz()" style="margin-top:25px;">Try Again</button>
         </div>
     </div>
 
     <script>
-        const questions = [
+        const questions = [ /* same 10 questions as before */ 
             { q: "What is ConcreteXYZ?", options: ["A retail trading app", "Institutional vault infrastructure launched by ConcreteXYZ", "A stablecoin issuance platform", "A Layer 2 blockchain"], correct: 1 },
             { q: "What is the core design goal of ConcreteXYZ?", options: ["Simplify meme coin trading", "Bring trading desk-level rigor on-chain with automated operations", "Create NFT marketplaces", "Focus only on Bitcoin yield"], correct: 1 },
             { q: "What key accounting feature does ConcreteXYZ provide?", options: ["Monthly manual reports", "Real-time NAV accounting", "Only on-chain price feeds", "Off-chain Excel tracking"], correct: 1 },
@@ -196,15 +142,12 @@
             { q: "What is ConcreteXYZ’s broader vision?", options: ["Core infrastructure for on-chain capital formation", "Replace all CEXs", "Focus only on Ethereum L1", "Build a new L1 blockchain"], correct: 0 }
         ];
 
-        let currentQ = 0;
-        let score = 0;
-        let selected = null;
+        let currentQ = 0, score = 0, selected = null;
 
         function startQuiz() {
             document.getElementById('startScreen').classList.remove('active');
             document.getElementById('quizScreen').classList.add('active');
-            currentQ = 0;
-            score = 0;
+            currentQ = 0; score = 0;
             loadQuestion();
         }
 
@@ -212,13 +155,10 @@
             const q = questions[currentQ];
             document.getElementById('questionText').innerHTML = q.q;
             document.getElementById('qNum').textContent = currentQ + 1;
-
-            const progress = ((currentQ) / questions.length) * 100;
-            document.getElementById('progress').style.width = progress + "%";
+            document.getElementById('progress').style.width = ((currentQ) / questions.length * 100) + "%";
 
             const optionsDiv = document.getElementById('options');
             optionsDiv.innerHTML = "";
-
             q.options.forEach((opt, i) => {
                 const div = document.createElement('div');
                 div.className = "option";
@@ -256,21 +196,12 @@
         function nextQuestion() {
             if (selected === questions[currentQ].correct) score++;
             currentQ++;
-            
-            if (currentQ < questions.length) {
-                loadQuestion();
-            } else {
-                showResults();
-            }
+            currentQ < questions.length ? loadQuestion() : showResults();
         }
 
         function skipQuestion() {
             currentQ++;
-            if (currentQ < questions.length) {
-                loadQuestion();
-            } else {
-                showResults();
-            }
+            currentQ < questions.length ? loadQuestion() : showResults();
         }
 
         function showResults() {
@@ -282,9 +213,8 @@
             document.getElementById('scoreCircle').textContent = percentage + "%";
             
             const msg = document.getElementById('resultMessage');
-            if (percentage >= 80) msg.textContent = "🏆 Excellent! You're a ConcreteXYZ Expert!";
-            else if (percentage >= 60) msg.textContent = "👏 Good Job!";
-            else msg.textContent = "📚 Keep Learning about ConcreteXYZ!";
+            msg.textContent = percentage >= 80 ? "🏆 Excellent! You're a ConcreteXYZ Expert!" :
+                             percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ!";
         }
 
         function restartQuiz() {
