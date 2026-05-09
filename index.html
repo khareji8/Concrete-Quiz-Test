@@ -73,6 +73,7 @@
 </head>
 <body>
     <div class="container">
+        <!-- Start Screen -->
         <div id="startScreen" class="screen active">
             <div class="logo">🗿 ConcreteXYZ</div>
             <h1>ConcreteXYZ Quiz</h1>
@@ -80,6 +81,7 @@
             <center><button class="btn" onclick="startQuiz()">Start Quiz →</button></center>
         </div>
 
+        <!-- Quiz Screen -->
         <div id="quizScreen" class="screen">
             <div class="logo">🗿 ConcreteXYZ</div>
             <div style="text-align:center; margin-bottom:15px; color:#94a3b8;">Question <span id="qNum">1</span>/10</div>
@@ -98,6 +100,7 @@
             </div>
         </div>
 
+        <!-- Results Screen -->
         <div id="resultScreen" class="screen" style="text-align:center;">
             <div class="logo">🗿 ConcreteXYZ</div>
             <h1>Quiz Completed!</h1>
@@ -198,4 +201,69 @@
             document.getElementById('resultScreen').classList.add('active');
 
             const percentage = Math.round((score / questions.length) * 100);
-            document.getElementById('finalScore
+            document.getElementById('finalScore').textContent = `${score}/${questions.length}`;
+            document.getElementById('scoreCircle').textContent = percentage + "%";
+            
+            const msg = document.getElementById('resultMessage');
+            msg.textContent = percentage >= 80 ? "🏆 Excellent! You're a ConcreteXYZ Expert!" :
+                             percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ!";
+        }
+
+        function copyScoreImage() {
+            const percentage = Math.round((score / questions.length) * 100);
+            const canvas = document.getElementById('scoreCanvas');
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = "#0f172a";
+            ctx.fillRect(0, 0, 600, 400);
+
+            ctx.fillStyle = "#00f5c0";
+            ctx.font = "bold 52px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("ConcreteXYZ", 300, 100);
+
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 28px Arial";
+            ctx.fillText("Quiz Completed!", 300, 145);
+
+            ctx.beginPath();
+            ctx.arc(300, 240, 85, 0, Math.PI * 2);
+            ctx.fillStyle = "#00f5c0";
+            ctx.fill();
+
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 85px Arial";
+            ctx.fillText(percentage + "%", 300, 255);
+
+            ctx.font = "bold 38px Arial";
+            ctx.fillText(`${score}/10`, 300, 305);
+
+            ctx.fillStyle = "#94a3b8";
+            ctx.font = "28px Arial";
+            ctx.fillText("Institutional Vault Quiz", 300, 355);
+
+            canvas.toBlob(blob => {
+                navigator.clipboard.write([new ClipboardItem({'image/png': blob})]);
+            });
+        }
+
+        function shareOnTwitter() {
+            const percentage = Math.round((score / questions.length) * 100);
+            const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪
+
+Test your knowledge about institutional on-chain vaults.
+
+Try it yourself 👇 
+https://concrete-quiz-test.vercel.app 
+
+This website is built by ConcreteXYZ Supporter @pras_p69`;
+
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function restartQuiz() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
