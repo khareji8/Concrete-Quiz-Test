@@ -110,13 +110,11 @@
             <div class="buttons">
                 <button class="btn" onclick="restartQuiz()">Try Again</button>
                 <button class="btn btn-twitter" id="shareBtn" onclick="shareOnTwitter()" style="display:none;">
-                    📤 Share on X (with Score Image)
+                    📤 Share Score on X
                 </button>
             </div>
         </div>
     </div>
-
-    <canvas id="scoreCanvas" width="600" height="400" style="display:none;"></canvas>
 
     <script>
         const questions = [
@@ -212,36 +210,6 @@
         function shareOnTwitter() {
             const percentage = Math.round((score / questions.length) * 100);
 
-            // Generate Score Image
-            const canvas = document.getElementById('scoreCanvas');
-            const ctx = canvas.getContext('2d');
-
-            ctx.fillStyle = "#0f172a";
-            ctx.fillRect(0, 0, 600, 400);
-
-            ctx.fillStyle = "#00f5c0";
-            ctx.font = "bold 55px Arial";
-            ctx.textAlign = "center";
-            ctx.fillText("ConcreteXYZ", 300, 90);
-
-            ctx.fillStyle = "white";
-            ctx.font = "bold 130px Arial";
-            ctx.fillText(percentage + "%", 300, 230);
-
-            ctx.font = "bold 45px Arial";
-            ctx.fillText(`${score}/10`, 300, 290);
-
-            ctx.font = "30px Arial";
-            ctx.fillStyle = "#94a3b8";
-            ctx.fillText("Institutional Vault Quiz", 300, 350);
-
-            // Download Image
-            const link = document.createElement('a');
-            link.download = 'concretexyz-score.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-
-            // Open Twitter with exact text
             const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪
 
 Test your knowledge about institutional on-chain vaults.
@@ -251,9 +219,7 @@ https://concrete-quiz-test.vercel.app
 
 This website is built by ConcreteXYZ Supporter @pras_p69`;
 
-            setTimeout(() => {
-                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
-            }, 500);
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
         }
 
         function restartQuiz() {
