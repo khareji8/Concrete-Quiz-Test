@@ -110,13 +110,12 @@
             <div class="buttons">
                 <button class="btn" onclick="restartQuiz()">Try Again</button>
                 <button class="btn btn-twitter" id="shareBtn" onclick="shareOnTwitter()" style="display:none;">
-                    📤 Share Score on X
+                    📤 Share Score on X (with Image)
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Canvas for Score Image -->
     <canvas id="scoreCanvas" width="600" height="400" style="display:none;"></canvas>
 
     <script>
@@ -213,7 +212,7 @@
         function shareOnTwitter() {
             const percentage = Math.round((score / questions.length) * 100);
 
-            // Generate Score Image
+            // Create Score Image
             const canvas = document.getElementById('scoreCanvas');
             const ctx = canvas.getContext('2d');
 
@@ -236,8 +235,7 @@
             ctx.fillStyle = "#94a3b8";
             ctx.fillText("Institutional Vault Quiz", 300, 350);
 
-            // Your Exact Tweet Text
-            const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪
+            const tweetText = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪
 
 Test your knowledge about institutional on-chain vaults.
 
@@ -246,8 +244,24 @@ https://concrete-quiz-test.vercel.app
 
 This website is built by ConcreteXYZ Supporter @pras_p69`;
 
-            // Force open Twitter
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+            canvas.toBlob(blob => {
+                const file = new File([blob], "concretexyz-score.png", { type: "image/png" });
+
+                // Try native share with image first (best chance to attach image)
+                if (navigator.share && navigator.canShare({ files: [file] })) {
+                    navigator.share({
+                        title: `ConcreteXYZ Quiz - ${percentage}%`,
+                        text: tweetText,
+                        files: [file]
+                    }).catch(() => {
+                        // Fallback to Twitter
+                        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+                    });
+                } else {
+                    // Desktop fallback
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+                }
+            });
         }
 
         function restartQuiz() {
