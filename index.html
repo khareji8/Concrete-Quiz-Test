@@ -58,14 +58,26 @@
             background: linear-gradient(45deg, #00f5c0, #22d3ee);
             color: #0f172a;
             border: none;
-            padding: 16px 32px;
-            font-size: 1.1rem;
+            padding: 14px 28px;
+            font-size: 1.05rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s;
+            margin: 0 8px;
         }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 245, 192, 0.4); }
+
+        .btn-skip {
+            background: transparent;
+            color: #94a3b8;
+            border: 2px solid #475569;
+        }
+        .btn-skip:hover {
+            background: #334155;
+            color: #e2e8f0;
+            border-color: #64748b;
+        }
 
         .progress-bar {
             height: 8px;
@@ -116,10 +128,16 @@
             font-weight: bold;
             font-size: 1.1rem;
         }
+
+        .buttons {
+            text-align: center;
+            margin-top: 25px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Start Screen -->
         <div id="startScreen" class="screen active">
             <div class="logo">🗿 ConcreteXYZ</div>
             <h1>ConcreteXYZ Quiz</h1>
@@ -127,6 +145,7 @@
             <center><button class="btn" onclick="startQuiz()">Start Quiz →</button></center>
         </div>
 
+        <!-- Quiz Screen -->
         <div id="quizScreen" class="screen">
             <div class="logo">🗿 ConcreteXYZ</div>
             <div style="text-align:center; margin-bottom:15px; color:#94a3b8;">
@@ -141,11 +160,13 @@
 
             <div id="feedback" class="feedback" style="display:none;"></div>
 
-            <center>
+            <div class="buttons">
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip Question</button>
                 <button class="btn" id="nextBtn" onclick="nextQuestion()" style="display:none;">Next Question →</button>
-            </center>
+            </div>
         </div>
 
+        <!-- Results Screen -->
         <div id="resultScreen" class="screen" style="text-align:center;">
             <div class="logo">🗿 ConcreteXYZ</div>
             <h1>Quiz Completed!</h1>
@@ -229,13 +250,22 @@
                 element.classList.add('incorrect');
                 document.querySelectorAll('.option')[questions[currentQ].correct].classList.add('correct');
             }
-            document.getElementById('nextBtn').style.display = "block";
+            document.getElementById('nextBtn').style.display = "inline-block";
         }
 
         function nextQuestion() {
             if (selected === questions[currentQ].correct) score++;
             currentQ++;
             
+            if (currentQ < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function skipQuestion() {
+            currentQ++;
             if (currentQ < questions.length) {
                 loadQuestion();
             } else {
