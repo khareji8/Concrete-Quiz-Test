@@ -4,27 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Concrete Enterprise Quiz</title>
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concrete Enterprise Quiz</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%); /* Concrete Dark Theme */
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
             margin: 0;
+            color: #e2e8f0;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.95); /* Darker glassmorphism */
+            backdrop-filter: blur(12px);
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             width: 100%;
             max-width: 800px;
             padding: 40px;
-            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 245, 192, 0.1);
         }
 
         .header {
@@ -33,7 +40,7 @@
         }
 
         .logo {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(45deg, #00f5c0, #67e8f9);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 2.8rem;
@@ -42,7 +49,7 @@
         }
 
         .subtitle {
-            color: #666;
+            color: #94a3b8;
             font-size: 1.1rem;
         }
 
@@ -63,13 +70,13 @@
         .question-counter {
             text-align: center;
             margin-bottom: 20px;
-            color: #666;
+            color: #94a3b8;
             font-size: 0.9rem;
         }
 
         .progress-bar {
             height: 6px;
-            background: #e0e0e0;
+            background: #334155;
             border-radius: 3px;
             margin-bottom: 30px;
             overflow: hidden;
@@ -77,21 +84,21 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(45deg, #00f5c0, #67e8f9);
             width: 0%;
             transition: width 0.3s ease;
         }
 
         .question {
-            background: #f8f9fa;
+            background: #1e2937;
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 25px;
-            border-left: 5px solid #667eea;
+            border-left: 5px solid #00f5c0;
         }
 
         .question h3 {
-            color: #333;
+            color: #f1f5f9;
             font-size: 1.3rem;
             line-height: 1.5;
             margin-bottom: 20px;
@@ -103,34 +110,34 @@
         }
 
         .option {
-            background: white;
-            border: 2px solid #e0e0e0;
+            background: #334155;
+            border: 2px solid #475569;
             border-radius: 12px;
             padding: 15px 20px;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
+            color: #e2e8f0;
         }
 
         .option:hover {
-            border-color: #667eea;
+            border-color: #00f5c0;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 245, 192, 0.2);
         }
 
         .option.selected {
-            border-color: #667eea;
-            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-color: #00f5c0;
+            background: rgba(0, 245, 192, 0.1);
         }
 
         .option.correct {
-            border-color: #4CAF50;
-            background: linear-gradient(45deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.2));
+            border-color: #4ade80;
+            background: rgba(74, 222, 128, 0.15);
         }
 
         .option.incorrect {
-            border-color: #f44336;
-            background: linear-gradient(45deg, rgba(244, 67, 54, 0.1), rgba(244, 67, 54, 0.2));
+            border-color: #f87171;
+            background: rgba(248, 113, 113, 0.15);
         }
 
         .feedback {
@@ -143,25 +150,20 @@
         }
 
         .feedback.correct {
-            background: rgba(76, 175, 80, 0.1);
-            color: #4CAF50;
-            border: 2px solid #4CAF50;
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+            border: 2px solid #4ade80;
         }
 
         .feedback.incorrect {
-            background: rgba(244, 67, 54, 0.1);
-            color: #f44336;
-            border: 2px solid #f44336;
-        }
-
-        .buttons {
-            text-align: center;
-            margin-top: 30px;
+            background: rgba(248, 113, 113, 0.15);
+            color: #f87171;
+            border: 2px solid #f87171;
         }
 
         .btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
+            background: linear-gradient(45deg, #00f5c0, #67e8f9);
+            color: #0f172a;
             border: none;
             padding: 15px 30px;
             border-radius: 50px;
@@ -173,17 +175,8 @@
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .start-screen, .results-screen {
-            text-align: center;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 245, 192, 0.4);
         }
 
         .score-circle {
@@ -198,25 +191,43 @@
             font-size: 2.5rem;
             font-weight: bold;
             color: white;
-            position: relative;
         }
 
-        .score-circle.excellent { background: linear-gradient(45deg, #4CAF50, #8BC34A); }
-        .score-circle.good { background: linear-gradient(45deg, #FF9800, #FFC107); }
-        .score-circle.average { background: linear-gradient(45deg, #2196F3, #03A9F4); }
-        .score-circle.poor { background: linear-gradient(45deg, #f44336, #FF5722); }
-
-        .results-message {
-            color: #333;
-            font-size: 1.4rem;
-            margin: 20px 0;
-        }
+        .score-circle.excellent { background: linear-gradient(45deg, #00f5c0, #22d3ee); }
+        .score-circle.good { background: linear-gradient(45deg, #67e8f9, #a5f3fc); }
+        .score-circle.average { background: linear-gradient(45deg, #64748b, #94a3b8); }
+        .score-circle.poor { background: linear-gradient(45deg, #f87171, #fb923c); }
 
         @media (max-width: 600px) {
             .container { padding: 25px; }
             .logo { font-size: 2.2rem; }
         }
     </style>
+</head>
+<body>
+    <!-- Rest of your HTML remains the same -->
+    <div class="container">
+        <!-- Start Screen -->
+        <div id="startScreen" class="start-screen">
+            <div class="header">
+                <div class="logo">🗿 Concrete</div>
+                <h2>Enterprise Quiz</h2>
+                <p class="subtitle">Test your knowledge about Concrete Enterprise — Institutional Vault Infrastructure</p>
+            </div>
+            <button class="btn" onclick="startQuiz()">Start Quiz</button>
+        </div>
+
+        <!-- Quiz & Results sections remain unchanged (same as previous version) -->
+        <!-- ... (copy the quizScreen and resultsScreen from previous code) ... -->
+
+    </div>
+
+    <script>
+        // Paste the full JavaScript from the previous version here
+        // (It's unchanged)
+    </script>
+</body>
+</html>
 </head>
 <body>
     <div class="container">
