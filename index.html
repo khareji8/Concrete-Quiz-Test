@@ -115,7 +115,7 @@
         </div>
     </div>
 
-    <canvas id="scoreCanvas" width="600" height="420" style="display:none;"></canvas>
+    <canvas id="scoreCanvas" width="600" height="460" style="display:none;"></canvas>
 
     <script>
         const questions = [
@@ -212,7 +212,7 @@
             const ctx = canvas.getContext('2d');
 
             ctx.fillStyle = "#0f172a";
-            ctx.fillRect(0, 0, 600, 420);
+            ctx.fillRect(0, 0, 600, 460);
 
             ctx.fillStyle = "#00f5c0";
             ctx.font = "bold 52px Arial";
@@ -229,18 +229,27 @@
             ctx.fillStyle = "#00f5c0";
             ctx.fill();
 
-            // Smaller 100%
+            // 100%
             ctx.fillStyle = "#ffffff";
             ctx.font = "bold 65px Arial";
             ctx.fillText(percentage + "%", 300, 258);
 
-            // Smaller 10/10
+            // 10/10
             ctx.font = "bold 29px Arial";
             ctx.fillText(`${score}/10`, 300, 295);
 
+            // Institutional Vault Quiz
             ctx.fillStyle = "#94a3b8";
             ctx.font = "26px Arial";
             ctx.fillText("Institutional Vault Quiz", 300, 370);
+
+            // Result Message (Excellent / Good Job / Keep Learning)
+            const msg = percentage >= 80 ? "🏆 Excellent! You're a ConcreteXYZ Expert!" :
+                        percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ";
+            
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 22px Arial";
+            ctx.fillText(msg, 300, 415);
 
             canvas.toBlob(blob => {
                 navigator.clipboard.write([new ClipboardItem({'image/png': blob})]).then(() => {
