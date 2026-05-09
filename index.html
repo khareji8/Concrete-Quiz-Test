@@ -49,7 +49,7 @@
         @keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
 
         .progress-bar { height: 6px; background: #e5e7eb; border-radius: 999px; overflow: hidden; margin: 15px 0; }
-        .progress-fill { height: 100%; background: linear-gradient(to right, #00f5c0, #22d3ee); width: 0%; transition: width 0.4s ease; }
+        .progress-fill { height: 100%; background: linear-gradient(to right, #9c27b0, #e91e63); width: 0%; transition: width 0.4s ease; }
 
         .question { 
             background: #fff; 
@@ -72,10 +72,10 @@
             border: 2px solid #e2e8f0;
             font-size: 0.96rem;
         }
-        .option:hover { border-color: #00f5c0; }
-        .option.selected { background: rgba(0, 245, 192, 0.08); border-color: #00f5c0; }
-        .option.correct { border-color: #4ade80; background: rgba(74, 222, 128, 0.08); }
-        .option.incorrect { border-color: #f87171; background: rgba(248, 113, 113, 0.08); }
+        .option:hover { border-color: #9c27b0; }
+        .option.selected { background: rgba(156, 39, 176, 0.1); border-color: #9c27b0; }
+        .option.correct { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+        .option.incorrect { border-color: #f87171; background: rgba(248, 113, 113, 0.1); }
 
         .feedback { margin-top: 18px; padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; }
 
@@ -89,8 +89,8 @@
         }
 
         .btn {
-            background: linear-gradient(45deg, #00f5c0, #22d3ee);
-            color: #0f172a;
+            background: linear-gradient(45deg, #9c27b0, #e91e63);
+            color: white;
             border: none;
             padding: 12px 26px;
             font-size: 1rem;
@@ -133,7 +133,7 @@
             <div class="logo">CONCRETE</div>
             <h1>Quiz Completed!</h1>
             
-            <div id="scoreCircle" style="width:170px;height:170px;border-radius:50%;margin:20px auto;display:flex;align-items:center;justify-content:center;font-size:2.8rem;font-weight:bold;color:white;background:linear-gradient(135deg,#00f5c0,#22d3ee);">0%</div>
+            <div id="scoreCircle" style="width:170px;height:170px;border-radius:50%;margin:20px auto;display:flex;align-items:center;justify-content:center;font-size:2.8rem;font-weight:bold;color:white;background:linear-gradient(135deg,#9c27b0,#e91e63);">0%</div>
             
             <h2 id="resultMessage">Great Job!</h2>
             <p style="font-size:1.25rem;">You scored <strong id="finalScore">0/10</strong></p>
@@ -146,10 +146,10 @@
         </div>
     </div>
 
-    <canvas id="scoreCanvas" width="600" height="460" style="display:none;"></canvas>
+    <canvas id="scoreCanvas" width="600" height="480" style="display:none;"></canvas>
 
     <script>
-        const questions = [ /* your 10 questions */ 
+        const questions = [
             { q: "What is ConcreteXYZ?", options: ["A retail trading app", "Institutional vault infrastructure launched by ConcreteXYZ", "A stablecoin issuance platform", "A Layer 2 blockchain"], correct: 1 },
             { q: "What is the core design goal of ConcreteXYZ?", options: ["Simplify meme coin trading", "Bring trading desk-level rigor on-chain with automated operations", "Create NFT marketplaces", "Focus only on Bitcoin yield"], correct: 1 },
             { q: "What key accounting feature does ConcreteXYZ provide?", options: ["Monthly manual reports", "Real-time NAV accounting", "Only on-chain price feeds", "Off-chain Excel tracking"], correct: 1 },
@@ -202,11 +202,11 @@
 
             if (index === questions[currentQ].correct) {
                 feedback.innerHTML = "✅ Correct!";
-                feedback.style.color = "#10b981";
+                feedback.style.color = "#4ade80";
                 element.classList.add('correct');
             } else {
                 feedback.innerHTML = "❌ Incorrect";
-                feedback.style.color = "#ef4444";
+                feedback.style.color = "#f87171";
                 element.classList.add('incorrect');
                 document.querySelectorAll('.option')[questions[currentQ].correct].classList.add('correct');
             }
@@ -242,23 +242,22 @@
             const canvas = document.getElementById('scoreCanvas');
             const ctx = canvas.getContext('2d');
 
-            // Light background like your screenshot
             ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0, 0, 600, 460);
+            ctx.fillRect(0, 0, 600, 480);
 
-            ctx.fillStyle = "#1f2937";
-            ctx.font = "bold 48px Arial";
+            ctx.fillStyle = "#4a148c"; // Deep Bengani
+            ctx.font = "bold 52px Arial";
             ctx.textAlign = "center";
-            ctx.fillText("CONCRETE", 300, 80);
+            ctx.fillText("CONCRETE", 300, 85);
 
             ctx.fillStyle = "#1f2937";
             ctx.font = "bold 26px Arial";
             ctx.fillText("Quiz Completed!", 300, 125);
 
-            // Turquoise Circle
+            // Bengani Circle
             ctx.beginPath();
             ctx.arc(300, 245, 95, 0, Math.PI * 2);
-            ctx.fillStyle = "#14b8a6";
+            ctx.fillStyle = "#9c27b0";
             ctx.fill();
 
             ctx.fillStyle = "#ffffff";
@@ -276,12 +275,12 @@
                               percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ";
             
             ctx.fillStyle = "#1f2937";
-            ctx.font = "bold 22px Arial";
+            ctx.font = "bold 21px Arial";
             ctx.fillText(resultMsg, 300, 415);
 
             canvas.toBlob(blob => {
                 navigator.clipboard.write([new ClipboardItem({'image/png': blob})]).then(() => {
-                    alert("✅ Score Image Copied!\n\nPaste (Ctrl + V) in your Twitter post.");
+                    alert("✅ Score Image Copied Successfully!\n\nPaste (Ctrl + V) in your Twitter post.");
                 });
             });
         }
