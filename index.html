@@ -214,34 +214,40 @@
             ctx.fillStyle = "#0f172a";
             ctx.fillRect(0, 0, 600, 400);
 
+            // ConcreteXYZ Logo
             ctx.fillStyle = "#00f5c0";
             ctx.font = "bold 48px Arial";
             ctx.textAlign = "center";
-            ctx.fillText("ConcreteXYZ", 300, 90);
+            ctx.fillText("ConcreteXYZ", 300, 95);
 
+            // Quiz Completed
             ctx.fillStyle = "#ffffff";
             ctx.font = "bold 26px Arial";
             ctx.fillText("Quiz Completed!", 300, 135);
 
+            // Big Circle with Percentage
             ctx.beginPath();
-            ctx.arc(300, 245, 92, 0, Math.PI * 2);
+            ctx.arc(300, 245, 88, 0, Math.PI * 2);
             ctx.fillStyle = "#00f5c0";
             ctx.fill();
 
             ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 92px Arial";
-            ctx.fillText(percentage + "%", 300, 265);
+            ctx.font = "bold 78px Arial";
+            ctx.fillText(percentage + "%", 300, 260);
 
-            ctx.font = "bold 36px Arial";
-            ctx.fillText(`${score}/10`, 300, 310);
+            // Score
+            ctx.font = "bold 34px Arial";
+            ctx.fillText(`${score}/10`, 300, 305);
 
+            // Bottom Text
             ctx.fillStyle = "#94a3b8";
             ctx.font = "26px Arial";
             ctx.fillText("Institutional Vault Quiz", 300, 355);
 
+            // Copy to clipboard
             canvas.toBlob(blob => {
                 navigator.clipboard.write([new ClipboardItem({'image/png': blob})]).then(() => {
-                    alert("✅ Score Image Copied Successfully!\n\nPaste it (Ctrl + V) in your Twitter post.");
+                    alert("✅ Score Image Copied Successfully!\n\nYou can now paste it (Ctrl + V) in your Twitter post.");
                 });
             });
         }
