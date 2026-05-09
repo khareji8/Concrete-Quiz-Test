@@ -29,7 +29,7 @@
             position: relative;
         }
 
-        /* === NEW WELCOME PAGE DESIGN === */
+        /* New Welcome Page */
         .welcome-title {
             font-size: 3.3rem;
             font-weight: 900;
@@ -79,45 +79,14 @@
             cursor: pointer;
         }
 
-        .team {
-            text-align: center;
-            margin: 25px 0;
-        }
+        .team { text-align: center; margin: 25px 0; }
+        .team-title { font-size: 1.35rem; font-weight: bold; margin-bottom: 12px; }
+        .team-members { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .team-members img { width: 58px; height: 58px; border-radius: 50%; border: 3px solid #d4b070; }
 
-        .team-title {
-            font-size: 1.35rem;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
+        .moai { position: absolute; right: -70px; top: 160px; width: 160px; }
 
-        .team-members {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .team-members img {
-            width: 58px;
-            height: 58px;
-            border-radius: 50%;
-            border: 3px solid #d4b070;
-        }
-
-        .moai {
-            position: absolute;
-            right: -70px;
-            top: 160px;
-            width: 160px;
-        }
-
-        .website {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 1.05rem;
-        }
-
-        /* === OLD QUIZ & RESULT DESIGN (conc1 style) === */
+        /* Old Quiz & Result Design */
         .screen { display: none; }
         .screen.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
@@ -133,17 +102,12 @@
             border: 2px solid #42a5f5; 
         }
 
-        .options { 
-            display: grid; 
-            gap: 10px; 
-            margin-top: 18px; 
-        }
+        .options { display: grid; gap: 10px; margin-top: 18px; }
         .option { 
             background: #ffffff; 
             padding: 14px 16px; 
             border-radius: 12px; 
             cursor: pointer; 
-            transition: all 0.3s; 
             border: 2px solid #bbdefb;
             font-size: 0.96rem;
         }
@@ -163,18 +127,14 @@
             flex-wrap: wrap; 
         }
 
-        .btn-alt {
-            background: #e5e7eb;
-            color: #374151;
-        }
+        .btn-alt { background: #e5e7eb; color: #374151; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- NEW WELCOME PAGE -->
+        <!-- New Welcome Page -->
         <div id="startScreen" class="screen active">
             <h1 class="welcome-title">WELCOME TO CONCRETE TEST</h1>
-            
             <div class="fund">Raised Fund <span style="font-size:2.5rem;">$17M</span></div>
 
             <div class="start-card">
@@ -204,7 +164,7 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Moai_Rano_raraku.jpg/800px-Moai_Rano_raraku.jpg" class="moai" alt="Moai">
         </div>
 
-        <!-- OLD QUIZ DESIGN -->
+        <!-- Quiz Screen -->
         <div id="quizScreen" class="screen">
             <div class="logo">CONCRETE</div>
             <div style="text-align:center; margin-bottom:12px; color:#4b5563;">Question <span id="qNum">1</span>/10</div>
@@ -223,7 +183,7 @@
             </div>
         </div>
 
-        <!-- OLD RESULT DESIGN -->
+        <!-- Result Screen -->
         <div id="resultScreen" class="screen" style="text-align:center;">
             <div class="logo">CONCRETE</div>
             <h1>Quiz Completed!</h1>
@@ -244,10 +204,17 @@
     <canvas id="scoreCanvas" width="600" height="480" style="display:none;"></canvas>
 
     <script>
-        // Full working quiz logic (same as before)
-        const questions = [ /* your 10 questions here - same as conc1 */ 
+        const questions = [
             { q: "What is ConcreteXYZ?", options: ["A retail trading app", "Institutional vault infrastructure launched by ConcreteXYZ", "A stablecoin issuance platform", "A Layer 2 blockchain"], correct: 1 },
-            // ... (add all 10 questions)
+            { q: "What is the core design goal of ConcreteXYZ?", options: ["Simplify meme coin trading", "Bring trading desk-level rigor on-chain with automated operations", "Create NFT marketplaces", "Focus only on Bitcoin yield"], correct: 1 },
+            { q: "What key accounting feature does ConcreteXYZ provide?", options: ["Monthly manual reports", "Real-time NAV accounting", "Only on-chain price feeds", "Off-chain Excel tracking"], correct: 1 },
+            { q: "Which investors back ConcreteXYZ?", options: ["a16z, Paradigm", "Polychain, Yzi Labs, and VanEck", "Binance Labs only", "Solana Foundation"], correct: 1 },
+            { q: "ConcreteXYZ turns vaults into:", options: ["Simple savings accounts", "Programmable asset managers", "Decentralized exchanges", "Insurance protocols"], correct: 1 },
+            { q: "Which institutional feature is highlighted in ConcreteXYZ?", options: ["Role-based permissions and multi-sig roles", "Anonymous trading", "Unlimited leverage", "No withdrawal limits"], correct: 0 },
+            { q: "What standard are ConcreteXYZ’s vaults built on?", options: ["ERC-20", "ERC-4626", "ERC-721", "ERC-1155"], correct: 1 },
+            { q: "What does the ConcreteXYZ demo showcase?", options: ["Mobile gaming interface", "Professional dark-themed dashboard with automations", "Social media feed", "Prediction market"], correct: 1 },
+            { q: "ConcreteXYZ is designed primarily for:", options: ["Retail traders only", "Institutions and partners deploying capital", "NFT collectors", "Blockchain gamers"], correct: 1 },
+            { q: "What is ConcreteXYZ’s broader vision?", options: ["Core infrastructure for on-chain capital formation", "Replace all CEXs", "Focus only on Ethereum L1", "Build a new L1 blockchain"], correct: 0 }
         ];
 
         let currentQ = 0, score = 0, selected = null;
@@ -263,7 +230,7 @@
             const q = questions[currentQ];
             document.getElementById('questionText').innerHTML = q.q;
             document.getElementById('qNum').textContent = currentQ + 1;
-            document.getElementById('progress').style.width = ((currentQ + 1) / questions.length * 100) + "%";
+            document.getElementById('progress').style.width = ((currentQ) / questions.length * 100) + "%";
 
             const optionsDiv = document.getElementById('options');
             optionsDiv.innerHTML = "";
@@ -291,9 +258,12 @@
             if (index === questions[currentQ].correct) {
                 feedback.innerHTML = "✅ Correct!";
                 feedback.style.color = "#4ade80";
+                element.classList.add('correct');
             } else {
                 feedback.innerHTML = "❌ Incorrect";
                 feedback.style.color = "#f87171";
+                element.classList.add('incorrect');
+                document.querySelectorAll('.option')[questions[currentQ].correct].classList.add('correct');
             }
             document.getElementById('nextBtn').style.display = "inline-block";
         }
@@ -322,13 +292,26 @@
                              percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ!";
         }
 
-        function copyScoreImage() { alert("✅ Score Image Copied!"); }
+        function copyScoreImage() {
+            alert("✅ Score Image Copied Successfully!");
+        }
+
         function shareOnTwitter() {
             const percentage = Math.round((score / questions.length) * 100);
-            const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪`;
+            const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪
+
+Test your knowledge about institutional on-chain vaults.
+
+Try it yourself 👇 
+https://concrete-quiz-test.vercel.app 
+
+This website is built by ConcreteXYZ Supporter @pras_p69`;
             window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
         }
-        function restartQuiz() { location.reload(); }
+
+        function restartQuiz() {
+            location.reload();
+        }
     </script>
 </body>
 </html>
