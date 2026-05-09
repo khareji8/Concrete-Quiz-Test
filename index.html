@@ -110,11 +110,17 @@
             <div class="buttons">
                 <button class="btn" onclick="restartQuiz()">Try Again</button>
                 <button class="btn btn-twitter" id="shareBtn" onclick="shareOnTwitter()" style="display:none;">
-                    📤 Share Score on X
+                    📤 Share on X
+                </button>
+                <button class="btn" id="copyImageBtn" onclick="copyScoreImage()" style="display:none; background:#334155; color:white;">
+                    📋 Copy Score Image
                 </button>
             </div>
         </div>
     </div>
+
+    <!-- Canvas for Score Image -->
+    <canvas id="scoreCanvas" width="600" height="400" style="display:none;"></canvas>
 
     <script>
         const questions = [
@@ -204,12 +210,14 @@
             msg.textContent = percentage >= 80 ? "🏆 Excellent! You're a ConcreteXYZ Expert!" :
                              percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ!";
 
-            document.getElementById('shareBtn').style.display = percentage >= 70 ? "inline-block" : "none";
+            if (percentage >= 70) {
+                document.getElementById('shareBtn').style.display = "inline-block";
+                document.getElementById('copyImageBtn').style.display = "inline-block";
+            }
         }
 
         function shareOnTwitter() {
             const percentage = Math.round((score / questions.length) * 100);
-
             const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪
 
 Test your knowledge about institutional on-chain vaults.
@@ -220,6 +228,41 @@ https://concrete-quiz-test.vercel.app
 This website is built by ConcreteXYZ Supporter @pras_p69`;
 
             window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function copyScoreImage() {
+            const percentage = Math.round((score / questions.length) * 100);
+            const canvas = document.getElementById('scoreCanvas');
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = "#0f172a";
+            ctx.fillRect(0, 0, 600, 400);
+
+            ctx.fillStyle = "#00f5c0";
+            ctx.font = "bold 55px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("ConcreteXYZ", 300, 90);
+
+            ctx.fillStyle = "white";
+            ctx.font = "bold 130px Arial";
+            ctx.fillText(percentage + "%", 300, 230);
+
+            ctx.font = "bold 45px Arial";
+            ctx.fillText(`${score}/10`, 300, 290);
+
+            ctx.font = "30px Arial";
+            ctx.fillStyle = "#94a3b8";
+            ctx.fillText("Institutional Vault Quiz", 300, 350);
+
+            canvas.toBlob(blob => {
+                navigator.clipboard.write([
+                    new ClipboardItem({ 'image/png': blob })
+                ]).then(() => {
+                    alert("✅ Score image copied to clipboard! \n\nNow paste it in your Twitter post.");
+                }).catch(() => {
+                    alert("Could not copy image. Try on desktop or use screenshot.");
+                });
+            });
         }
 
         function restartQuiz() {
