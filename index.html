@@ -3,473 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concrete Enterprise Quiz</title>
-   <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concrete Enterprise Quiz</title>
+    <title>ConcreteXYZ Quiz</title>
     <style>
+        :root {
+            --primary: #00f5c0;
+            --dark: #0f172a;
+            --card: #1e2937;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%); /* Concrete Dark Theme */
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
+            color: #e2e8f0;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            margin: 0;
-            color: #e2e8f0;
         }
 
         .container {
-            background: rgba(15, 23, 42, 0.95); /* Darker glassmorphism */
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             padding: 40px;
-            border: 1px solid rgba(0, 245, 192, 0.1);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
+            border: 1px solid rgba(0, 245, 192, 0.15);
         }
 
         .logo {
-            background: linear-gradient(45deg, #00f5c0, #67e8f9);
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #00f5c0, #67e8f9);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 2.8rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: #94a3b8;
-            font-size: 1.1rem;
-        }
-
-        .quiz-section {
-            display: none;
-        }
-
-        .quiz-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .question-counter {
             text-align: center;
-            margin-bottom: 20px;
-            color: #94a3b8;
-            font-size: 0.9rem;
+            margin-bottom: 8px;
         }
 
-        .progress-bar {
-            height: 6px;
-            background: #334155;
-            border-radius: 3px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
+        h1 { text-align: center; margin-bottom: 8px; color: white; }
+        .subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; font-size: 1.1rem; }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(45deg, #00f5c0, #67e8f9);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
+        .screen { display: none; }
+        .screen.active { display: block; animation: fadeIn 0.4s ease; }
 
-        .question {
-            background: #1e2937;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            border-left: 5px solid #00f5c0;
-        }
-
-        .question h3 {
-            color: #f1f5f9;
-            font-size: 1.3rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        .options {
-            display: grid;
-            gap: 12px;
-        }
-
-        .option {
-            background: #334155;
-            border: 2px solid #475569;
-            border-radius: 12px;
-            padding: 15px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #e2e8f0;
-        }
-
-        .option:hover {
-            border-color: #00f5c0;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 245, 192, 0.2);
-        }
-
-        .option.selected {
-            border-color: #00f5c0;
-            background: rgba(0, 245, 192, 0.1);
-        }
-
-        .option.correct {
-            border-color: #4ade80;
-            background: rgba(74, 222, 128, 0.15);
-        }
-
-        .option.incorrect {
-            border-color: #f87171;
-            background: rgba(248, 113, 113, 0.15);
-        }
-
-        .feedback {
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: bold;
-            display: none;
-        }
-
-        .feedback.correct {
-            background: rgba(74, 222, 128, 0.15);
-            color: #4ade80;
-            border: 2px solid #4ade80;
-        }
-
-        .feedback.incorrect {
-            background: rgba(248, 113, 113, 0.15);
-            color: #f87171;
-            border: 2px solid #f87171;
-        }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
 
         .btn {
-            background: linear-gradient(45deg, #00f5c0, #67e8f9);
+            background: linear-gradient(45deg, #00f5c0, #22d3ee);
             color: #0f172a;
             border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
+            padding: 16px 32px;
             font-size: 1.1rem;
             font-weight: bold;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 0 10px;
+            transition: all 0.3s;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 245, 192, 0.4); }
+
+        .progress-bar {
+            height: 8px;
+            background: #334155;
+            border-radius: 999px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #00f5c0, #67e8f9);
+            width: 0%;
+            transition: width 0.4s ease;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 245, 192, 0.4);
+        .question { 
+            background: var(--card); 
+            padding: 30px; 
+            border-radius: 16px; 
+            margin: 25px 0; 
         }
+        
+        .options { 
+            display: grid; 
+            gap: 12px; 
+            margin-top: 20px; 
+        }
+        
+        .option {
+            background: #334155;
+            padding: 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            font-size: 1.05rem;
+        }
+        .option:hover { background: #475569; border-color: var(--primary); }
+        .option.selected { background: rgba(0, 245, 192, 0.15); border-color: var(--primary); }
+        .option.correct { border-color: #4ade80; background: rgba(74, 222, 128, 0.2); }
+        .option.incorrect { border-color: #f87171; background: rgba(248, 113, 113, 0.2); }
 
-        .score-circle {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            margin: 30px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            font-size: 2.5rem;
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
             font-weight: bold;
-            color: white;
-        }
-
-        .score-circle.excellent { background: linear-gradient(45deg, #00f5c0, #22d3ee); }
-        .score-circle.good { background: linear-gradient(45deg, #67e8f9, #a5f3fc); }
-        .score-circle.average { background: linear-gradient(45deg, #64748b, #94a3b8); }
-        .score-circle.poor { background: linear-gradient(45deg, #f87171, #fb923c); }
-
-        @media (max-width: 600px) {
-            .container { padding: 25px; }
-            .logo { font-size: 2.2rem; }
+            font-size: 1.1rem;
         }
     </style>
 </head>
 <body>
-    <!-- Rest of your HTML remains the same -->
     <div class="container">
         <!-- Start Screen -->
-        <div id="startScreen" class="start-screen">
-            <div class="header">
-                <div class="logo">🗿 Concrete</div>
-                <h2>Enterprise Quiz</h2>
-                <p class="subtitle">Test your knowledge about Concrete Enterprise — Institutional Vault Infrastructure</p>
-            </div>
-            <button class="btn" onclick="startQuiz()">Start Quiz</button>
-        </div>
-
-        <!-- Quiz & Results sections remain unchanged (same as previous version) -->
-        <!-- ... (copy the quizScreen and resultsScreen from previous code) ... -->
-
-    </div>
-
-    <script>
-        // Paste the full JavaScript from the previous version here
-        // (It's unchanged)
-    </script>
-</body>
-</html>
-</head>
-<body>
-    <div class="container">
-        <!-- Start Screen -->
-        <div id="startScreen" class="start-screen">
-            <div class="header">
-                <div class="logo">🗿 Concrete</div>
-                <h2>Enterprise Quiz</h2>
-                <p class="subtitle">Test your knowledge about Concrete Enterprise — Institutional Vault Infrastructure</p>
-            </div>
-            <button class="btn" onclick="startQuiz()">Start Quiz</button>
+        <div id="startScreen" class="screen active">
+            <div class="logo">🗿 ConcreteXYZ</div>
+            <h1>ConcreteXYZ Quiz</h1>
+            <p class="subtitle">Test your knowledge about ConcreteXYZ Institutional Vault Infrastructure</p>
+            <center><button class="btn" onclick="startQuiz()">Start Quiz →</button></center>
         </div>
 
         <!-- Quiz Screen -->
-        <div id="quizScreen" class="quiz-section">
-            <div class="header">
-                <div class="logo">Concrete Enterprise</div>
+        <div id="quizScreen" class="screen">
+            <div class="logo">🗿 ConcreteXYZ</div>
+            <div style="text-align:center; margin-bottom:15px; color:#94a3b8;">
+                Question <span id="qNum">1</span>/10
             </div>
-            
-            <div class="question-counter">
-                Question <span id="currentQuestion">1</span> of 10
-            </div>
-            <div class="progress-bar">
-                <div id="progressFill" class="progress-fill"></div>
-            </div>
+            <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
 
             <div class="question">
                 <h3 id="questionText"></h3>
-                <div class="options" id="optionsContainer"></div>
+                <div class="options" id="options"></div>
             </div>
 
-            <div class="feedback" id="feedback"></div>
+            <div id="feedback" class="feedback" style="display:none;"></div>
 
-            <div class="buttons">
-                <button id="nextBtn" class="btn" onclick="nextQuestion()" style="display:none;">Next Question →</button>
-            </div>
+            <center>
+                <button class="btn" id="nextBtn" onclick="nextQuestion()" style="display:none;">Next Question →</button>
+            </center>
         </div>
 
         <!-- Results Screen -->
-        <div id="resultsScreen" class="quiz-section results-screen">
-            <div class="header">
-                <div class="logo">🗿 Concrete</div>
-                <h2>Quiz Complete!</h2>
+        <div id="resultScreen" class="screen results" style="text-align:center;">
+            <div class="logo">🗿 ConcreteXYZ</div>
+            <h1>Quiz Completed!</h1>
+            
+            <div id="scoreCircle" style="width:180px;height:180px;border-radius:50%;margin:25px auto;display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:bold;color:white;background:linear-gradient(45deg,#00f5c0,#22d3ee);">
+                0%
             </div>
             
-            <div id="scoreCircle" class="score-circle">
-                <span id="scoreText">0/10</span>
-                <div class="score-text" id="scoreLabel">Score</div>
-            </div>
+            <h2 id="resultMessage">Great Job!</h2>
+            <p style="font-size:1.3rem;">You scored <strong id="finalScore">0/10</strong></p>
 
-            <div class="results-message" id="resultsMessage"></div>
-
-            <div class="results-breakdown">
-                <div class="breakdown-item"><strong>Correct Answers:</strong> <span id="correctCount">0</span></div>
-                <div class="breakdown-item"><strong>Accuracy:</strong> <span id="accuracy">0%</span></div>
-            </div>
-
-            <button class="btn" onclick="restartQuiz()">Restart Quiz</button>
+            <button class="btn" onclick="restartQuiz()" style="margin-top:25px;">Try Again</button>
         </div>
     </div>
 
     <script>
         const questions = [
-            {
-                q: "What is Concrete Enterprise?",
-                options: [
-                    "A retail trading app for DeFi users",
-                    "Institutional vault infrastructure launched by ConcreteXYZ",
-                    "A stablecoin issuance platform",
-                    "A Layer 2 blockchain solution"
-                ],
-                correct: 1
-            },
-            {
-                q: "Which of the following best describes the core design goal of Concrete Enterprise?",
-                options: [
-                    "To simplify meme coin trading",
-                    "To bring trading desk-level rigor on-chain with automated operations",
-                    "To create NFT marketplaces",
-                    "To focus only on Bitcoin yield"
-                ],
-                correct: 1
-            },
-            {
-                q: "What key accounting feature does Concrete Enterprise provide?",
-                options: [
-                    "Monthly manual reports",
-                    "Real-time NAV (Net Asset Value) accounting",
-                    "Only on-chain price feeds",
-                    "Off-chain Excel tracking"
-                ],
-                correct: 1
-            },
-            {
-                q: "Which investors/backers are associated with Concrete?",
-                options: [
-                    "a16z, Paradigm, and Coinbase Ventures",
-                    "Polychain, Yzi Labs, and VanEck",
-                    "Binance Labs only",
-                    "Solana Foundation exclusively"
-                ],
-                correct: 1
-            },
-            {
-                q: "Concrete Enterprise turns vaults into:",
-                options: [
-                    "Simple savings accounts",
-                    "Programmable asset managers",
-                    "Decentralized exchanges",
-                    "Insurance protocols"
-                ],
-                correct: 1
-            },
-            {
-                q: "Which institutional control feature is highlighted in Concrete Enterprise?",
-                options: [
-                    "Role-based permissions and multi-sig roles",
-                    "Anonymous trading only",
-                    "Unlimited leverage without oversight",
-                    "No withdrawal limits"
-                ],
-                correct: 0
-            },
-            {
-                q: "What standard are Concrete’s vaults primarily built on?",
-                options: [
-                    "ERC-20",
-                    "ERC-4626",
-                    "ERC-721",
-                    "ERC-1155"
-                ],
-                correct: 1
-            },
-            {
-                q: "What does the demo of Concrete Enterprise showcase?",
-                options: [
-                    "A mobile gaming interface",
-                    "A professional dark-themed dashboard with automations, withdrawal history, and strategy parameters",
-                    "A social media feed",
-                    "A prediction market"
-                ],
-                correct: 1
-            },
-            {
-                q: "Concrete Enterprise is designed primarily for:",
-                options: [
-                    "Retail crypto traders only",
-                    "Institutions and partners deploying capital across custom strategies",
-                    "NFT collectors",
-                    "Blockchain gamers"
-                ],
-                correct: 1
-            },
-            {
-                q: "What broader vision does Concrete Enterprise support?",
-                options: [
-                    "Making Concrete Vaults the core infrastructure layer for on-chain capital formation",
-                    "Replacing all centralized exchanges",
-                    "Focusing only on Ethereum Layer 1",
-                    "Building a new Layer 1 blockchain"
-                ],
-                correct: 0
-            }
+            { q: "What is ConcreteXYZ?", 
+              options: ["A retail trading app", "Institutional vault infrastructure launched by ConcreteXYZ", "A stablecoin issuance platform", "A Layer 2 blockchain"], 
+              correct: 1 },
+            { q: "What is the core design goal of ConcreteXYZ?", 
+              options: ["Simplify meme coin trading", "Bring trading desk-level rigor on-chain with automated operations", "Create NFT marketplaces", "Focus only on Bitcoin yield"], 
+              correct: 1 },
+            { q: "What key accounting feature does ConcreteXYZ provide?", 
+              options: ["Monthly manual reports", "Real-time NAV accounting", "Only on-chain price feeds", "Off-chain Excel tracking"], 
+              correct: 1 },
+            { q: "Which investors back ConcreteXYZ?", 
+              options: ["a16z, Paradigm", "Polychain, Yzi Labs, and VanEck", "Binance Labs only", "Solana Foundation"], 
+              correct: 1 },
+            { q: "ConcreteXYZ turns vaults into:", 
+              options: ["Simple savings accounts", "Programmable asset managers", "Decentralized exchanges", "Insurance protocols"], 
+              correct: 1 },
+            { q: "Which institutional feature is highlighted in ConcreteXYZ?", 
+              options: ["Role-based permissions and multi-sig roles", "Anonymous trading", "Unlimited leverage", "No withdrawal limits"], 
+              correct: 0 },
+            { q: "What standard are ConcreteXYZ’s vaults built on?", 
+              options: ["ERC-20", "ERC-4626", "ERC-721", "ERC-1155"], 
+              correct: 1 },
+            { q: "What does the ConcreteXYZ demo showcase?", 
+              options: ["Mobile gaming interface", "Professional dark-themed dashboard with automations", "Social media feed", "Prediction market"], 
+              correct: 1 },
+            { q: "ConcreteXYZ is designed primarily for:", 
+              options: ["Retail traders only", "Institutions and partners deploying capital", "NFT collectors", "Blockchain gamers"], 
+              correct: 1 },
+            { q: "What is ConcreteXYZ’s broader vision?", 
+              options: ["Core infrastructure for on-chain capital formation", "Replace all CEXs", "Focus only on Ethereum L1", "Build a new L1 blockchain"], 
+              correct: 0 }
         ];
 
-        let currentQuestionIndex = 0;
+        let currentQ = 0;
         let score = 0;
-        let selectedAnswer = null;
+        let selected = null;
 
         function startQuiz() {
             document.getElementById('startScreen').classList.remove('active');
             document.getElementById('quizScreen').classList.add('active');
-            currentQuestionIndex = 0;
+            currentQ = 0;
             score = 0;
             loadQuestion();
         }
 
         function loadQuestion() {
-            const q = questions[currentQuestionIndex];
+            const q = questions[currentQ];
             document.getElementById('questionText').innerHTML = q.q;
-            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
-            
-            const progress = ((currentQuestionIndex) / questions.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('qNum').textContent = currentQ + 1;
 
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = '';
+            const progress = ((currentQ) / questions.length) * 100;
+            document.getElementById('progress').style.width = progress + "%";
 
-            q.options.forEach((option, index) => {
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = "";
+
+            q.options.forEach((opt, i) => {
                 const div = document.createElement('div');
-                div.className = 'option';
-                div.textContent = option;
-                div.onclick = () => selectAnswer(index, div);
-                optionsContainer.appendChild(div);
+                div.className = "option";
+                div.textContent = opt;
+                div.onclick = () => selectOption(i, div);
+                optionsDiv.appendChild(div);
             });
 
-            document.getElementById('feedback').style.display = 'none';
-            document.getElementById('nextBtn').style.display = 'none';
-            selectedAnswer = null;
+            document.getElementById('feedback').style.display = "none";
+            document.getElementById('nextBtn').style.display = "none";
+            selected = null;
         }
 
-        function selectAnswer(index, element) {
-            if (selectedAnswer !== null) return;
-
-            selectedAnswer = index;
-            
-            // Remove selected from all
-            const options = document.querySelectorAll('.option');
-            options.forEach(opt => opt.classList.remove('selected'));
-            
-            // Add selected
+        function selectOption(index, element) {
+            selected = index;
+            document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
 
-            const correctIndex = questions[currentQuestionIndex].correct;
-            
-            // Show feedback
             const feedback = document.getElementById('feedback');
-            feedback.style.display = 'block';
+            feedback.style.display = "block";
 
-            if (index === correctIndex) {
-                score++;
-                feedback.className = 'feedback correct';
-                feedback.textContent = '✅ Correct!';
+            if (index === questions[currentQ].correct) {
+                feedback.innerHTML = "✅ Correct!";
+                feedback.style.color = "#4ade80";
                 element.classList.add('correct');
             } else {
-                feedback.className = 'feedback incorrect';
-                feedback.textContent = '❌ Incorrect';
+                feedback.innerHTML = "❌ Incorrect";
+                feedback.style.color = "#f87171";
                 element.classList.add('incorrect');
-                
-                // Highlight correct answer
-                options.forEach((opt, i) => {
-                    if (i === correctIndex) opt.classList.add('correct');
-                });
+                document.querySelectorAll('.option')[questions[currentQ].correct].classList.add('correct');
             }
-
-            document.getElementById('nextBtn').style.display = 'inline-block';
+            document.getElementById('nextBtn').style.display = "block";
         }
 
         function nextQuestion() {
-            currentQuestionIndex++;
+            if (selected === questions[currentQ].correct) score++;
+            currentQ++;
             
-            if (currentQuestionIndex < questions.length) {
+            if (currentQ < questions.length) {
                 loadQuestion();
             } else {
                 showResults();
@@ -478,41 +265,22 @@
 
         function showResults() {
             document.getElementById('quizScreen').classList.remove('active');
-            document.getElementById('resultsScreen').classList.add('active');
+            document.getElementById('resultScreen').classList.add('active');
 
             const percentage = Math.round((score / questions.length) * 100);
-            document.getElementById('scoreText').textContent = `${score}/${questions.length}`;
-            document.getElementById('correctCount').textContent = score;
-            document.getElementById('accuracy').textContent = `${percentage}%`;
-
-            const circle = document.getElementById('scoreCircle');
-            circle.classList.remove('excellent', 'good', 'average', 'poor');
-
-            if (percentage >= 90) {
-                circle.classList.add('excellent');
-                document.getElementById('resultsMessage').innerHTML = '🏆 Excellent! You are a Concrete Expert!';
-            } else if (percentage >= 70) {
-                circle.classList.add('good');
-                document.getElementById('resultsMessage').innerHTML = '👏 Great Job! You know Concrete well.';
-            } else if (percentage >= 50) {
-                circle.classList.add('average');
-                document.getElementById('resultsMessage').innerHTML = '👍 Not bad! Keep learning about Concrete Enterprise.';
-            } else {
-                circle.classList.add('poor');
-                document.getElementById('resultsMessage').innerHTML = '📚 You might want to review the Concrete announcement again.';
-            }
+            document.getElementById('finalScore').textContent = `${score}/${questions.length}`;
+            document.getElementById('scoreCircle').textContent = percentage + "%";
+            
+            const msg = document.getElementById('resultMessage');
+            if (percentage >= 80) msg.textContent = "🏆 Excellent! You're a ConcreteXYZ Expert!";
+            else if (percentage >= 60) msg.textContent = "👏 Good Job!";
+            else msg.textContent = "📚 Keep Learning about ConcreteXYZ!";
         }
 
         function restartQuiz() {
-            document.getElementById('resultsScreen').classList.remove('active');
+            document.getElementById('resultScreen').classList.remove('active');
             document.getElementById('startScreen').classList.add('active');
         }
-
-        // Initialize
-        window.onload = function() {
-            // Make start screen active by default
-            document.getElementById('startScreen').classList.add('active');
-        };
     </script>
 </body>
 </html>
