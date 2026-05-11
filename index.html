@@ -306,3 +306,484 @@
 
         .options {
             display: grid;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .option {
+            background: #ffffff;
+            padding: 10px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 2px solid #bbdefb;
+            font-size: 0.9rem;
+        }
+
+        .option:hover {
+            border-color: #42a5f5;
+        }
+
+        .option.selected {
+            background: rgba(66, 165, 245, 0.1);
+            border-color: #42a5f5;
+        }
+
+        .option.correct {
+            border-color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .option.incorrect {
+            border-color: #f87171;
+            background: rgba(248, 113, 113, 0.1);
+        }
+
+        .feedback {
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-alt {
+            background: linear-gradient(45deg, #2196f3, #00bcd4);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+            box-shadow: none;
+            border: none;
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 768px) {
+            body {
+                align-items: flex-start;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                height: auto;
+            }
+
+            .welcome-title {
+                font-size: 2.5rem;
+                margin-bottom: 30px;
+                -webkit-text-stroke: 1px cyan;
+                line-height: 1.1;
+            }
+
+            .main-layout {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .left-col, .right-col {
+                transform: none;
+            }
+
+            .raised-text {
+                font-size: 2.5rem;
+            }
+
+            .amount-text {
+                font-size: 3.5rem;
+            }
+
+            .start-card {
+                width: 90%;
+                max-width: 400px;
+                padding: 25px;
+                margin: 0 auto;
+            }
+
+            .mascot-img {
+                width: 220px;
+            }
+
+            .footer-area {
+                margin-top: 40px;
+            }
+
+            .builder-text {
+                transform: none;
+                margin-bottom: 20px;
+                font-size: 1rem;
+            }
+
+            .mobile-footer-flex {
+                flex-direction: column !important;
+                align-items: center !important;
+                padding: 0 15px !important;
+                gap: 30px;
+            }
+
+            .project-handle, .official-website {
+                align-items: center !important;
+                text-align: center !important;
+                width: 100%;
+            }
+
+            .team-heading {
+                font-size: 1.5rem;
+                margin-top: 10px;
+            }
+
+            .team-members {
+                gap: 12px;
+            }
+
+            .member {
+                width: 75px;
+                padding: 5px;
+            }
+
+            .member img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .member span {
+                font-size: 0.6rem;
+            }
+
+            .quiz-container {
+                width: 90%;
+                padding: 20px 15px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            #scoreCircle {
+                width: 130px !important;
+                height: 130px !important;
+                font-size: 2.2rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Start Screen -->
+    <div id="startScreen" class="screen active">
+        <h1 class="welcome-title">welcome to concrete test</h1>
+
+        <div class="main-layout">
+            <div class="left-col">
+                <h2 class="raised-text">Raised<br>Fund</h2>
+                <h1 class="amount-text">$17M</h1>
+            </div>
+
+            <div class="center-col">
+                <div class="start-card">
+                    <div class="logo">CONCRETE</div>
+                    <h2 class="card-title">ConcreteXYZ Quiz</h2>
+                    <p class="card-desc">Test your knowledge about Institutional On-Chain Vaults</p>
+                    <button class="btn" onclick="startQuiz()">Start Quiz →</button>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <img src="moai.png" class="mascot-img" alt="Concrete Moai Mascot">
+            </div>
+        </div>
+
+        <div class="footer-area">
+            <p class="builder-text">This website is built by ConcreteXYZ Supporter <a
+                    href="https://twitter.com/pras_p69" target="_blank" class="highlight"
+                    style="text-decoration:none;">@pras_p69</a></p>
+            <div class="mobile-footer-flex" style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; padding: 0 37px; box-sizing: border-box;">
+                
+                <!-- Left: Project Handle -->
+                <div class="project-handle" style="position: static; flex: 1; display: flex; flex-direction: column; align-items: flex-start;">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <h3 class="team-heading" style="margin-top: 0; text-align: center;">Project Handle</h3>
+                        <div class="team-members" style="justify-content: center;">
+                            <a href="https://twitter.com/ConcreteXYZ" target="_blank" class="member">
+                                <img src="https://unavatar.io/twitter/ConcreteXYZ" alt="ConcreteXYZ">
+                                <span>@ConcreteXYZ</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center: Team Members -->
+                <div class="center-team" style="text-align: center; flex: 3;">
+                    <h3 class="team-heading" style="margin-top: 0;">Team members</h3>
+                    <div class="team-members" style="justify-content: center;">
+                        <a href="https://x.com/dill_sl" target="_blank" class="member"><img src="dill.png" onerror="this.src='https://unavatar.io/twitter/dill_sl'" alt="Dillon"><span>@dill_sl</span></a>
+                        <a href="https://x.com/GustavoRSSilva" target="_blank" class="member"><img src="https://unavatar.io/twitter/GustavoRSSilva" alt="Gustavo"><span>@GustavoRSSilva</span></a>
+                        <a href="https://x.com/nic_builds" target="_blank" class="member"><img src="https://unavatar.io/twitter/nic_builds" alt="Nic"><span>@nic_builds</span></a>
+                        <a href="https://x.com/lukehajduk04" target="_blank" class="member"><img src="https://unavatar.io/twitter/lukehajduk04" alt="Luke"><span>@lukehajduk04</span></a>
+                        <a href="https://x.com/andonpv" target="_blank" class="member"><img src="https://unavatar.io/twitter/andonpv" alt="Andon"><span>@andonpv</span></a>
+                        <a href="https://x.com/crypttoji" target="_blank" class="member"><img src="https://unavatar.io/twitter/crypttoji" alt="Crypttoji"><span>@crypttoji</span></a>
+                        <a href="https://x.com/concrete_intern" target="_blank" class="member"><img src="https://unavatar.io/twitter/concrete_intern" alt="Intern"><span>@concrete_intern</span></a>
+                    </div>
+                </div>
+
+                <!-- Right: Official Website -->
+                <div class="official-website" style="position: static; flex: 1; display: flex; flex-direction: column; align-items: flex-end;">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <h3 class="team-heading" style="margin-top: 0; text-align: center;">Official Website</h3>
+                        <a href="https://points.concrete.xyz/home" target="_blank" class="btn btn-alt" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 5px; box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);">
+                            Visit Website
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quizScreen" class="screen">
+        <div class="quiz-container">
+            <div style="text-align: center;">
+                <div class="logo">CONCRETE</div>
+            </div>
+            <div style="text-align:center; margin-bottom:12px; color:#4b5563; font-weight: bold;">Question <span
+                    id="qNum">1</span>/10</div>
+            <div class="progress-bar">
+                <div id="progress" class="progress-fill"></div>
+            </div>
+
+            <div class="question">
+                <h3 id="questionText"></h3>
+                <div class="options" id="options"></div>
+            </div>
+
+            <div id="feedback" class="feedback" style="display:none;"></div>
+
+            <div class="buttons">
+                <button class="btn btn-alt" onclick="quitQuiz()">Quit</button>
+                <button class="btn btn-alt" onclick="restartQuiz()">Try Again</button>
+                <button class="btn btn-alt" onclick="skipQuestion()">Skip Question</button>
+                <button class="btn" id="nextBtn" onclick="nextQuestion()" style="display:none;">Next Question →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="resultScreen" class="screen">
+        <div class="quiz-container" style="text-align:center;">
+            <div class="logo">CONCRETE</div>
+            <h1>Quiz Completed!</h1>
+
+            <div id="scoreCircle"
+                style="width:170px;height:170px;border-radius:50%;margin:20px auto;display:flex;align-items:center;justify-content:center;font-size:2.8rem;font-weight:bold;color:white;background:linear-gradient(135deg,#9c27b0,#e91e63);">
+                0%</div>
+
+            <h2 id="resultMessage">Great Job!</h2>
+            <p style="font-size:1.25rem; margin-bottom: 20px;">You scored <strong id="finalScore">0/10</strong></p>
+
+            <div id="copyToast"
+                style="display:none; background:#10b981; color:white; padding:8px 16px; border-radius:20px; margin: 0 auto 15px auto; width: max-content; font-weight:bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: fadeIn 0.3s ease;"
+                data-html2canvas-ignore="true">Score image is copy</div>
+
+            <div class="buttons" data-html2canvas-ignore="true">
+                <button class="btn" onclick="restartQuiz()">Try Again</button>
+                <button class="btn" onclick="shareOnTwitter()">📤 Share on X</button>
+                <button class="btn btn-alt" id="copyBtn" onclick="copyScoreImage()">📋 Copy Score Image</button>
+            </div>
+
+            <p style="margin-top: 25px; font-size: 1.3rem; font-weight: 900; color: red !important;">This website is
+                build by ConcreteXYZ supporter <a href="https://twitter.com/pras_p69" target="_blank"
+                    style="color:#1d9bf0; text-decoration:underline;">@pras_p69</a></p>
+        </div>
+    </div>
+
+    <canvas id="scoreCanvas" width="600" height="480" style="display:none;"></canvas>
+
+    <script>
+        const questions = [
+            { q: "What is ConcreteXYZ?", options: ["A retail trading app", "Institutional vault infrastructure launched by ConcreteXYZ", "A stablecoin issuance platform", "A Layer 2 blockchain"], correct: 1 },
+            { q: "What is the core design goal of ConcreteXYZ?", options: ["Simplify meme coin trading", "Bring trading desk-level rigor on-chain with automated operations", "Create NFT marketplaces", "Focus only on Bitcoin yield"], correct: 1 },
+            { q: "What key accounting feature does ConcreteXYZ provide?", options: ["Monthly manual reports", "Real-time NAV accounting", "Only on-chain price feeds", "Off-chain Excel tracking"], correct: 1 },
+            { q: "Which investors back ConcreteXYZ?", options: ["a16z, Paradigm", "Polychain, Yzi Labs, and VanEck", "Binance Labs only", "Solana Foundation"], correct: 1 },
+            { q: "ConcreteXYZ turns vaults into:", options: ["Simple savings accounts", "Programmable asset managers", "Decentralized exchanges", "Insurance protocols"], correct: 1 },
+            { q: "Which institutional feature is highlighted in ConcreteXYZ?", options: ["Role-based permissions and multi-sig roles", "Anonymous trading", "Unlimited leverage", "No withdrawal limits"], correct: 0 },
+            { q: "What standard are ConcreteXYZ’s vaults built on?", options: ["ERC-20", "ERC-4626", "ERC-721", "ERC-1155"], correct: 1 },
+            { q: "What does the ConcreteXYZ demo showcase?", options: ["Mobile gaming interface", "Professional dark-themed dashboard with automations", "Social media feed", "Prediction market"], correct: 1 },
+            { q: "ConcreteXYZ is designed primarily for:", options: ["Retail traders only", "Institutions and partners deploying capital", "NFT collectors", "Blockchain gamers"], correct: 1 },
+            { q: "What is ConcreteXYZ’s broader vision?", options: ["Core infrastructure for on-chain capital formation", "Replace all CEXs", "Focus only on Ethereum L1", "Build a new L1 blockchain"], correct: 0 }
+        ];
+
+        let currentQ = 0, score = 0, selected = null;
+
+        function startQuiz() {
+            document.getElementById('startScreen').classList.remove('active');
+            document.getElementById('quizScreen').classList.add('active');
+            currentQ = 0; score = 0;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQ];
+            document.getElementById('questionText').innerHTML = q.q;
+            document.getElementById('qNum').textContent = currentQ + 1;
+            document.getElementById('progress').style.width = ((currentQ) / questions.length * 100) + "%";
+
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = "";
+            q.options.forEach((opt, i) => {
+                const div = document.createElement('div');
+                div.className = "option";
+                div.textContent = opt;
+                div.onclick = () => selectOption(i, div);
+                optionsDiv.appendChild(div);
+            });
+
+            // Reset everything
+            document.getElementById('feedback').style.display = "none";
+            document.getElementById('nextBtn').style.display = "none";
+            selected = null;
+        }
+
+        function selectOption(index, element) {
+            selected = index;
+            document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+
+            const feedback = document.getElementById('feedback');
+            feedback.style.display = "block";
+
+            if (index === questions[currentQ].correct) {
+                feedback.innerHTML = "✅ Correct!";
+                feedback.style.color = "#4ade80";
+            } else {
+                feedback.innerHTML = "❌ Incorrect";
+                feedback.style.color = "#f87171";
+                document.querySelectorAll('.option')[questions[currentQ].correct].classList.add('correct');
+            }
+            document.getElementById('nextBtn').style.display = "inline-block";
+        }
+
+        function nextQuestion() {
+            if (selected === questions[currentQ].correct) score++;
+            currentQ++;
+            currentQ < questions.length ? loadQuestion() : showResults();
+        }
+
+        function skipQuestion() {
+            currentQ++;
+            currentQ < questions.length ? loadQuestion() : showResults();
+        }
+
+        function showResults() {
+            document.getElementById('quizScreen').classList.remove('active');
+            document.getElementById('resultScreen').classList.add('active');
+
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('finalScore').textContent = `${score}/${questions.length}`;
+            document.getElementById('scoreCircle').textContent = percentage + "%";
+
+            const msg = document.getElementById('resultMessage');
+            msg.textContent = percentage >= 80 ? "🏆 Excellent! You're a ConcreteXYZ Expert!" :
+                percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ!";
+        }
+
+        function showCopyToast(msg) {
+            const toast = document.getElementById('copyToast');
+            toast.textContent = msg || "Score image is copy";
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        async function copyScoreImage() {
+            const btn = document.getElementById('copyBtn');
+            if (btn.innerText.includes("Copying")) return;
+
+            const originalText = "📋 Copy Score Image";
+            btn.innerHTML = "⏳ Copying...";
+
+            // Failsafe timeout
+            let failsafe = setTimeout(() => {
+                if (btn.innerHTML.includes("Copying")) {
+                    btn.innerHTML = originalText;
+                    showCopyToast("Screenshot blocked by browser security. Try testing on a live server!");
+                }
+            }, 5000);
+
+            try {
+                // Temporarily neutralize all external images to stop html2canvas from freezing
+                const images = document.querySelectorAll('img');
+                const originalSrcs = [];
+                images.forEach(img => {
+                    originalSrcs.push(img.src);
+                    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                });
+
+                const target = document.querySelector('#resultScreen .quiz-container');
+                const canvas = await html2canvas(target, { backgroundColor: null });
+
+                // Restore images immediately after capture
+                images.forEach((img, i) => { img.src = originalSrcs[i]; });
+                clearTimeout(failsafe);
+
+                canvas.toBlob(async function (blob) {
+                    try {
+                        if (!navigator.clipboard || !navigator.clipboard.write) {
+                            throw new Error("Clipboard API not supported");
+                        }
+                        const item = new ClipboardItem({ "image/png": blob });
+                        await navigator.clipboard.write([item]);
+                        btn.innerHTML = originalText;
+                        showCopyToast("Score image is copy");
+                    } catch (e) {
+                        console.log("Clipboard failed, falling back to download:", e);
+                        const link = document.createElement('a');
+                        link.download = 'concrete-score.png';
+                        link.href = canvas.toDataURL("image/png");
+                        link.click();
+                        btn.innerHTML = originalText;
+                        showCopyToast("Score image is copy");
+                    }
+                });
+            } catch (e) {
+                console.error("Canvas error:", e);
+                btn.innerHTML = originalText;
+                showCopyToast("Failed to capture image.");
+            }
+        }
+        function shareOnTwitter() {
+            const percentage = Math.round((score / questions.length) * 100);
+            const url = window.location.href;
+            const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪\n\nGo and test your knowledge and show your contribution toward Concrete\n\nTest link :- ${url}\n\nThis website is build by ConcreteXYZ supporter @pras_p69`;
+
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+        }
+        function quitQuiz() {
+            document.getElementById('quizScreen').classList.remove('active');
+            document.getElementById('resultScreen').classList.remove('active');
+            document.getElementById('startScreen').classList.add('active');
+        }
+        function restartQuiz() {
+            document.getElementById('resultScreen').classList.remove('active');
+            startQuiz();
+        }
+    </script>
+</body>
+
+</html>
