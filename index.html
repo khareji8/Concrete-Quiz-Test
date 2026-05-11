@@ -1,174 +1,461 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ConcreteXYZ Quiz</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background: #f5e8c7;
+            background-color: #e6dec1;
+            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.3);
             color: #1f2937;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: #ffffff;
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 820px;
-            padding: 35px 30px;
-            border: 5px solid #d4b070;
             position: relative;
         }
 
-        /* New Welcome Page */
-        .welcome-title {
-            font-size: 3.3rem;
-            font-weight: 900;
-            color: #e53935;
-            text-shadow: 4px 4px 0 #1e40af;
-            text-align: center;
-            margin-bottom: 15px;
+        .screen {
+            display: none;
+            width: 100%;
         }
 
-        .fund {
-            font-size: 2.1rem;
-            font-weight: bold;
-            color: #e53935;
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Start Screen Layout */
+        #startScreen {
+            padding: 20px;
+        }
+
+        .welcome-title {
+            font-family: 'Arial Black', Impact, sans-serif;
+            font-size: 4.5rem;
+            color: black;
+            text-transform: lowercase;
             text-align: center;
-            margin-bottom: 30px;
+            -webkit-text-stroke: 2px cyan;
+            text-shadow: 4px 4px 0 black;
+            margin-bottom: 50px;
+            letter-spacing: 2px;
+        }
+
+        .main-layout {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .left-col {
+            text-align: center;
+            transform: translateX(-7vw);
+        }
+
+        .raised-text {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            color: black;
+        }
+
+        .amount-text {
+            font-size: 5rem;
+            font-weight: 900;
+            color: #e91e63;
+            text-shadow: 2px 2px 0 white;
         }
 
         .start-card {
-            background: #f0f9ff;
-            border: 3px solid #d4b070;
+            background: #e1eff6;
+            border: 5px solid #d4b070;
             border-radius: 20px;
-            padding: 35px 25px;
+            padding: 40px;
             text-align: center;
-            margin-bottom: 30px;
+            width: 650px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
-            font-size: 2.7rem;
+            font-size: 1.5rem;
             font-weight: 900;
-            letter-spacing: 6px;
+            letter-spacing: 3px;
             background: linear-gradient(90deg, #9c27b0, #e91e63);
             color: white;
-            padding: 12px 45px;
-            border-radius: 12px;
+            padding: 6px 20px;
+            border-radius: 10px;
             display: inline-block;
             margin-bottom: 15px;
+            border: 3px solid black;
+            box-shadow: 4px 4px 0 black;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+
+        .card-desc {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 30px;
         }
 
         .btn {
             background: linear-gradient(45deg, #9c27b0, #e91e63);
             color: white;
             border: none;
-            padding: 14px 45px;
-            font-size: 1.1rem;
+            padding: 10px 24px;
+            font-size: 1rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            transition: transform 0.2s;
         }
 
-        .team { text-align: center; margin: 25px 0; }
-        .team-title { font-size: 1.35rem; font-weight: bold; margin-bottom: 12px; }
-        .team-members { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-        .team-members img { width: 58px; height: 58px; border-radius: 50%; border: 3px solid #d4b070; }
-
-        .moai { position: absolute; right: -70px; top: 160px; width: 160px; }
-
-        /* Old Quiz Design */
-        .screen { display: none; }
-        .screen.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
-
-        .progress-bar { height: 6px; background: #e5e7eb; border-radius: 999px; overflow: hidden; margin: 15px 0; }
-        .progress-fill { height: 100%; background: linear-gradient(to right, #9c27b0, #e91e63); width: 0%; transition: width 0.4s ease; }
-
-        .question { 
-            background: #e3f2fd; 
-            padding: 25px; 
-            border-radius: 16px; 
-            margin: 20px 0; 
-            border: 2px solid #42a5f5; 
+        .btn:hover {
+            transform: scale(1.05);
         }
 
-        .options { display: grid; gap: 10px; margin-top: 18px; }
-        .option { 
-            background: #ffffff; 
-            padding: 14px 16px; 
-            border-radius: 12px; 
-            cursor: pointer; 
+        .right-col {
+            text-align: center;
+            transform: translateX(10vw);
+        }
+
+        .mascot-img {
+            width: 320px;
+            border-radius: 15px;
+            border: 4px solid #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-area {
+            text-align: center;
+            margin-top: 8vh;
+        }
+
+        .builder-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1f2937;
+            transform: translateY(-3vh);
+            display: inline-block;
+        }
+
+        .builder-text .highlight {
+            color: #e91e63;
+        }
+
+        .team-heading {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-top: 5vh;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .team-members {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .member {
+            background: white;
+            padding: 10px 5px;
+            border: 1px solid #ccc;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-align: center;
+            width: 95px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 12px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .member:hover {
+            border-color: #9c27b0;
+            transform: translateY(-4px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .member img {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 3px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #e5e7eb;
+        }
+
+        .member span {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: -0.3px;
+        }
+
+        .official-website {
+            position: absolute;
+            bottom: 15vh;
+            right: 30px;
+            text-align: right;
+            font-size: 1rem;
+        }
+
+        .official-website strong, .project-handle strong {
+            color: black;
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+
+        .official-website a, .project-handle a {
+            color: blue;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .project-handle {
+            position: absolute;
+            bottom: 15vh;
+            left: 30px;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        /* Quiz & Result Screens */
+        .quiz-container {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 820px;
+            padding: 25px 20px;
+            border: 5px solid #d4b070;
+            margin: auto;
+        }
+
+        #resultScreen .quiz-container {
+            background: linear-gradient(135deg, #fef3c7, #fde047);
+            border-color: #d4b070;
+        }
+
+        #resultScreen h1,
+        #resultScreen h2,
+        #resultScreen p,
+        #resultScreen strong {
+            color: #1f2937 !important;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 999px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #9c27b0, #e91e63);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .question {
+            background: #e3f2fd;
+            padding: 18px;
+            border-radius: 16px;
+            margin: 15px 0;
+            border: 2px solid #42a5f5;
+        }
+
+        .options {
+            display: grid;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .option {
+            background: #ffffff;
+            padding: 10px 14px;
+            border-radius: 12px;
+            cursor: pointer;
             border: 2px solid #bbdefb;
-            font-size: 0.96rem;
-        }
-        .option:hover { border-color: #42a5f5; }
-        .option.selected { background: rgba(66, 165, 245, 0.1); border-color: #42a5f5; }
-        .option.correct { border-color: #4ade80; background: rgba(74, 222, 128, 0.1); }
-        .option.incorrect { border-color: #f87171; background: rgba(248, 113, 113, 0.1); }
-
-        .feedback { margin-top: 18px; padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; }
-
-        .buttons { 
-            text-align: center; 
-            margin-top: 25px; 
-            display: flex; 
-            justify-content: center; 
-            gap: 12px; 
-            flex-wrap: wrap; 
+            font-size: 0.9rem;
         }
 
-        .btn-alt { background: #e5e7eb; color: #374151; }
+        .option:hover {
+            border-color: #42a5f5;
+        }
+
+        .option.selected {
+            background: rgba(66, 165, 245, 0.1);
+            border-color: #42a5f5;
+        }
+
+        .option.correct {
+            border-color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .option.incorrect {
+            border-color: #f87171;
+            background: rgba(248, 113, 113, 0.1);
+        }
+
+        .feedback {
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-alt {
+            background: linear-gradient(45deg, #2196f3, #00bcd4);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+            box-shadow: none;
+            border: none;
+        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <!-- New Welcome Page -->
-        <div id="startScreen" class="screen active">
-            <h1 class="welcome-title">WELCOME TO CONCRETE TEST</h1>
-            <div class="fund">Raised Fund <span style="font-size:2.5rem;">$17M</span></div>
 
-            <div class="start-card">
-                <div class="logo">CONCRETE</div>
-                <h2 style="font-size:1.7rem; margin:12px 0;">ConcreteXYZ Quiz</h2>
-                <p style="color:#555; margin-bottom:25px;">Test your knowledge about Institutional On-Chain Vaults</p>
-                <button class="btn" onclick="startQuiz()">Start Quiz →</button>
+<body>
+
+    <!-- Start Screen -->
+    <div id="startScreen" class="screen active">
+        <h1 class="welcome-title">welcome to concrete test</h1>
+
+        <div class="main-layout">
+            <div class="left-col">
+                <h2 class="raised-text">Raised<br>Fund</h2>
+                <h1 class="amount-text">$17M</h1>
             </div>
 
-            <div class="team">
-                <div class="team-title">Team Members</div>
-                <div class="team-members">
-                    <img src="https://via.placeholder.com/58" alt="">
-                    <img src="https://via.placeholder.com/58" alt="">
-                    <img src="https://via.placeholder.com/58" alt="">
-                    <img src="https://via.placeholder.com/58" alt="">
-                    <img src="https://via.placeholder.com/58" alt="">
-                    <img src="https://via.placeholder.com/58" alt="">
-                    <img src="https://via.placeholder.com/58" alt="">
+            <div class="center-col">
+                <div class="start-card">
+                    <div class="logo">CONCRETE</div>
+                    <h2 class="card-title">ConcreteXYZ Quiz</h2>
+                    <p class="card-desc">Test your knowledge about Institutional On-Chain Vaults</p>
+                    <button class="btn" onclick="startQuiz()">Start Quiz →</button>
                 </div>
             </div>
 
-            <div class="website">
-                Official Website: <a href="https://points.concrete.xyz/home" target="_blank" style="color:#1e88e5;">https://points.concrete.xyz/home</a>
+            <div class="right-col">
+                <img src="moai.png" class="mascot-img" alt="Concrete Moai Mascot">
             </div>
-
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Moai_Rano_raraku.jpg/800px-Moai_Rano_raraku.jpg" class="moai" alt="Moai">
         </div>
 
-        <!-- Quiz Screen -->
-        <div id="quizScreen" class="screen">
-            <div class="logo">CONCRETE</div>
-            <div style="text-align:center; margin-bottom:12px; color:#4b5563;">Question <span id="qNum">1</span>/10</div>
-            <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
+        <div class="footer-area">
+            <p class="builder-text">This website is built by ConcreteXYZ Supporter <a
+                    href="https://twitter.com/pras_p69" target="_blank" class="highlight"
+                    style="text-decoration:none;">@pras_p69</a></p>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; padding: 0 40px; box-sizing: border-box;">
+                
+                <!-- Left: Project Handle -->
+                <div class="project-handle" style="position: static; flex: 1; display: flex; flex-direction: column; align-items: flex-start;">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <h3 class="team-heading" style="margin-top: 0; text-align: center;">Project Handle</h3>
+                        <div class="team-members" style="justify-content: center;">
+                            <a href="https://twitter.com/ConcreteXYZ" target="_blank" class="member">
+                                <img src="https://unavatar.io/twitter/ConcreteXYZ" alt="ConcreteXYZ">
+                                <span>@ConcreteXYZ</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center: Team Members -->
+                <div class="center-team" style="text-align: center; flex: 3;">
+                    <h3 class="team-heading" style="margin-top: 0;">Team members</h3>
+                    <div class="team-members" style="justify-content: center;">
+                        <a href="https://x.com/dill_sl" target="_blank" class="member"><img src="dill.png" onerror="this.src='https://unavatar.io/twitter/dill_sl'" alt="Dillon"><span>@dill_sl</span></a>
+                        <a href="https://x.com/GustavoRSSilva" target="_blank" class="member"><img src="https://unavatar.io/twitter/GustavoRSSilva" alt="Gustavo"><span>@GustavoRSSilva</span></a>
+                        <a href="https://x.com/nic_builds" target="_blank" class="member"><img src="https://unavatar.io/twitter/nic_builds" alt="Nic"><span>@nic_builds</span></a>
+                        <a href="https://x.com/lukehajduk04" target="_blank" class="member"><img src="https://unavatar.io/twitter/lukehajduk04" alt="Luke"><span>@lukehajduk04</span></a>
+                        <a href="https://x.com/andonpv" target="_blank" class="member"><img src="https://unavatar.io/twitter/andonpv" alt="Andon"><span>@andonpv</span></a>
+                        <a href="https://x.com/crypttoji" target="_blank" class="member"><img src="https://unavatar.io/twitter/crypttoji" alt="Crypttoji"><span>@crypttoji</span></a>
+                        <a href="https://x.com/concrete_intern" target="_blank" class="member"><img src="https://unavatar.io/twitter/concrete_intern" alt="Intern"><span>@concrete_intern</span></a>
+                    </div>
+                </div>
+
+                <!-- Right: Official Website -->
+                <div class="official-website" style="position: static; flex: 1; display: flex; flex-direction: column; align-items: flex-end;">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <h3 class="team-heading" style="margin-top: 0; text-align: center;">Official Website</h3>
+                        <a href="https://points.concrete.xyz/home" target="_blank" class="btn btn-alt" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 5px; box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);">
+                            Visit Website
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quizScreen" class="screen">
+        <div class="quiz-container">
+            <div style="text-align: center;">
+                <div class="logo">CONCRETE</div>
+            </div>
+            <div style="text-align:center; margin-bottom:12px; color:#4b5563; font-weight: bold;">Question <span
+                    id="qNum">1</span>/10</div>
+            <div class="progress-bar">
+                <div id="progress" class="progress-fill"></div>
+            </div>
 
             <div class="question">
                 <h3 id="questionText"></h3>
@@ -178,26 +465,40 @@
             <div id="feedback" class="feedback" style="display:none;"></div>
 
             <div class="buttons">
+                <button class="btn btn-alt" onclick="quitQuiz()">Quit</button>
+                <button class="btn btn-alt" onclick="restartQuiz()">Try Again</button>
                 <button class="btn btn-alt" onclick="skipQuestion()">Skip Question</button>
                 <button class="btn" id="nextBtn" onclick="nextQuestion()" style="display:none;">Next Question →</button>
             </div>
         </div>
+    </div>
 
-        <!-- Result Screen -->
-        <div id="resultScreen" class="screen" style="text-align:center;">
+    <!-- Result Screen -->
+    <div id="resultScreen" class="screen">
+        <div class="quiz-container" style="text-align:center;">
             <div class="logo">CONCRETE</div>
             <h1>Quiz Completed!</h1>
-            
-            <div id="scoreCircle" style="width:170px;height:170px;border-radius:50%;margin:20px auto;display:flex;align-items:center;justify-content:center;font-size:2.8rem;font-weight:bold;color:white;background:linear-gradient(135deg,#9c27b0,#e91e63);">0%</div>
-            
-            <h2 id="resultMessage">Great Job!</h2>
-            <p style="font-size:1.25rem;">You scored <strong id="finalScore">0/10</strong></p>
 
-            <div class="buttons">
+            <div id="scoreCircle"
+                style="width:170px;height:170px;border-radius:50%;margin:20px auto;display:flex;align-items:center;justify-content:center;font-size:2.8rem;font-weight:bold;color:white;background:linear-gradient(135deg,#9c27b0,#e91e63);">
+                0%</div>
+
+            <h2 id="resultMessage">Great Job!</h2>
+            <p style="font-size:1.25rem; margin-bottom: 20px;">You scored <strong id="finalScore">0/10</strong></p>
+
+            <div id="copyToast"
+                style="display:none; background:#10b981; color:white; padding:8px 16px; border-radius:20px; margin: 0 auto 15px auto; width: max-content; font-weight:bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: fadeIn 0.3s ease;"
+                data-html2canvas-ignore="true">Score image is copy</div>
+
+            <div class="buttons" data-html2canvas-ignore="true">
                 <button class="btn" onclick="restartQuiz()">Try Again</button>
                 <button class="btn" onclick="shareOnTwitter()">📤 Share on X</button>
-                <button class="btn" onclick="copyScoreImage()">📋 Copy Score Image</button>
+                <button class="btn btn-alt" id="copyBtn" onclick="copyScoreImage()">📋 Copy Score Image</button>
             </div>
+
+            <p style="margin-top: 25px; font-size: 1.3rem; font-weight: 900; color: red !important;">This website is
+                build by ConcreteXYZ supporter <a href="https://twitter.com/pras_p69" target="_blank"
+                    style="color:#1d9bf0; text-decoration:underline;">@pras_p69</a></p>
         </div>
     </div>
 
@@ -285,19 +586,92 @@
             const percentage = Math.round((score / questions.length) * 100);
             document.getElementById('finalScore').textContent = `${score}/${questions.length}`;
             document.getElementById('scoreCircle').textContent = percentage + "%";
-            
+
             const msg = document.getElementById('resultMessage');
             msg.textContent = percentage >= 80 ? "🏆 Excellent! You're a ConcreteXYZ Expert!" :
-                             percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ!";
+                percentage >= 60 ? "👏 Good Job!" : "📚 Keep Learning about ConcreteXYZ!";
         }
 
-        function copyScoreImage() { alert("✅ Score Image Copied!"); }
+        function showCopyToast(msg) {
+            const toast = document.getElementById('copyToast');
+            toast.textContent = msg || "Score image is copy";
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        async function copyScoreImage() {
+            const btn = document.getElementById('copyBtn');
+            if (btn.innerText.includes("Copying")) return;
+
+            const originalText = "📋 Copy Score Image";
+            btn.innerHTML = "⏳ Copying...";
+
+            // Failsafe timeout
+            let failsafe = setTimeout(() => {
+                if (btn.innerHTML.includes("Copying")) {
+                    btn.innerHTML = originalText;
+                    showCopyToast("Screenshot blocked by browser security. Try testing on a live server!");
+                }
+            }, 5000);
+
+            try {
+                // Temporarily neutralize all external images to stop html2canvas from freezing
+                const images = document.querySelectorAll('img');
+                const originalSrcs = [];
+                images.forEach(img => {
+                    originalSrcs.push(img.src);
+                    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                });
+
+                const target = document.querySelector('#resultScreen .quiz-container');
+                const canvas = await html2canvas(target, { backgroundColor: null });
+
+                // Restore images immediately after capture
+                images.forEach((img, i) => { img.src = originalSrcs[i]; });
+                clearTimeout(failsafe);
+
+                canvas.toBlob(async function (blob) {
+                    try {
+                        if (!navigator.clipboard || !navigator.clipboard.write) {
+                            throw new Error("Clipboard API not supported");
+                        }
+                        const item = new ClipboardItem({ "image/png": blob });
+                        await navigator.clipboard.write([item]);
+                        btn.innerHTML = originalText;
+                        showCopyToast("Score image is copy");
+                    } catch (e) {
+                        console.log("Clipboard failed, falling back to download:", e);
+                        const link = document.createElement('a');
+                        link.download = 'concrete-score.png';
+                        link.href = canvas.toDataURL("image/png");
+                        link.click();
+                        btn.innerHTML = originalText;
+                        showCopyToast("Score image is copy");
+                    }
+                });
+            } catch (e) {
+                console.error("Canvas error:", e);
+                btn.innerHTML = originalText;
+                showCopyToast("Failed to capture image.");
+            }
+        }
         function shareOnTwitter() {
             const percentage = Math.round((score / questions.length) * 100);
-            const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪`;
+            const url = window.location.href;
+            const text = `I just scored ${percentage}% on the @ConcreteXYZ Quiz! 🗿💪\n\nGo and test your knowledge and show your contribution toward Concrete\n\nTest link :- ${url}\n\nThis website is build by ConcreteXYZ supporter @pras_p69`;
+
             window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
         }
-        function restartQuiz() { location.reload(); }
+        function quitQuiz() {
+            document.getElementById('quizScreen').classList.remove('active');
+            document.getElementById('resultScreen').classList.remove('active');
+            document.getElementById('startScreen').classList.add('active');
+        }
+        function restartQuiz() {
+            document.getElementById('resultScreen').classList.remove('active');
+            startQuiz();
+        }
     </script>
 </body>
+
 </html>
